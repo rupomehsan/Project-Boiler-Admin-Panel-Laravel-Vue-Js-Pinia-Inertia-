@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Modules\Management\BlogManagement\BlogWriter\Controller;
-use App\Modules\Management\BlogManagement\BlogWriter\Actions\GetAllData;
-use App\Modules\Management\BlogManagement\BlogWriter\Actions\DestroyData;
-use App\Modules\Management\BlogManagement\BlogWriter\Actions\GetSingleData;
-use App\Modules\Management\BlogManagement\BlogWriter\Actions\StoreData;
-use App\Modules\Management\BlogManagement\BlogWriter\Actions\UpdateData;
-use App\Modules\Management\BlogManagement\BlogWriter\Actions\UpdateStatus;
-use App\Modules\Management\BlogManagement\BlogWriter\Actions\SoftDelete;
-use App\Modules\Management\BlogManagement\BlogWriter\Actions\RestoreData;
-use App\Modules\Management\BlogManagement\BlogWriter\Actions\ImportData;
-use App\Modules\Management\BlogManagement\BlogWriter\Validations\BulkActionsValidation;
-use App\Modules\Management\BlogManagement\BlogWriter\Validations\DataStoreValidation;
-use App\Modules\Management\BlogManagement\BlogWriter\Actions\BulkActions;
+namespace Modules\Management\BlogManagement\BlogWriter\Controller;
+use Modules\Management\BlogManagement\BlogWriter\Actions\GetAllData;
+use Modules\Management\BlogManagement\BlogWriter\Actions\DestroyData;
+use Modules\Management\BlogManagement\BlogWriter\Actions\GetSingleData;
+use Modules\Management\BlogManagement\BlogWriter\Actions\StoreData;
+use Modules\Management\BlogManagement\BlogWriter\Actions\UpdateData;
+use Modules\Management\BlogManagement\BlogWriter\Actions\UpdateStatus;
+use Modules\Management\BlogManagement\BlogWriter\Actions\SoftDelete;
+use Modules\Management\BlogManagement\BlogWriter\Actions\RestoreData;
+use Modules\Management\BlogManagement\BlogWriter\Actions\ImportData;
+use Modules\Management\BlogManagement\BlogWriter\Validations\BulkActionsValidation;
+use Modules\Management\BlogManagement\BlogWriter\Validations\DataStoreValidation;
+use Modules\Management\BlogManagement\BlogWriter\Actions\BulkActions;
 use App\Http\Controllers\Controller as ControllersController;
 
 

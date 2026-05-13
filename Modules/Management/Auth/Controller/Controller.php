@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Modules\Management\Auth\Controller;
+namespace Modules\Management\Auth\Controller;
 
-use App\Modules\Management\Auth\Actions\Login;
-use App\Modules\Management\Auth\Actions\Register;
-use App\Modules\Management\Auth\Actions\VerifyOtp;
-use App\Modules\Management\Auth\Actions\SendOtp;
-use App\Modules\Management\Auth\Actions\CheckUser;
-use App\Modules\Management\Auth\Actions\AuthCheck;
-use App\Modules\Management\Auth\Actions\ResetPassword;
+use Modules\Management\Auth\Actions\Login;
+use Modules\Management\Auth\Actions\Register;
+use Modules\Management\Auth\Actions\VerifyOtp;
+use Modules\Management\Auth\Actions\SendOtp;
+use Modules\Management\Auth\Actions\CheckUser;
+use Modules\Management\Auth\Actions\AuthCheck;
+use Modules\Management\Auth\Actions\ResetPassword;
 
-use App\Modules\Management\Auth\Validations\LoginValidation;
-use App\Modules\Management\Auth\Validations\RegisterValidation;
-use App\Modules\Management\Auth\Validations\OTPValidation;
-use App\Modules\Management\Auth\Validations\SendOTPValidation;
+use Modules\Management\Auth\Validations\LoginValidation;
+use Modules\Management\Auth\Validations\RegisterValidation;
+use Modules\Management\Auth\Validations\OTPValidation;
+use Modules\Management\Auth\Validations\SendOTPValidation;
 
 use App\Http\Controllers\Controller as ControllersController;
 

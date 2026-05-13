@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Modules\Management\UserManagement\User\Controller;
+namespace Modules\Management\UserManagement\User\Controller;
 
 use App\Http\Controllers\Controller as ControllersController;
-use App\Modules\Management\UserManagement\User\Actions\StoreData;
-use App\Modules\Management\UserManagement\User\Actions\GetAllData;
-use App\Modules\Management\UserManagement\User\Actions\ImportData;
-use App\Modules\Management\UserManagement\User\Actions\SoftDelete;
-use App\Modules\Management\UserManagement\User\Actions\UpdateData;
-use App\Modules\Management\UserManagement\User\Actions\BulkActions;
-use App\Modules\Management\UserManagement\User\Actions\DestroyData;
-use App\Modules\Management\UserManagement\User\Actions\RestoreData;
-use App\Modules\Management\UserManagement\User\Actions\GetSingleData;
+use Modules\Management\UserManagement\User\Actions\StoreData;
+use Modules\Management\UserManagement\User\Actions\GetAllData;
+use Modules\Management\UserManagement\User\Actions\ImportData;
+use Modules\Management\UserManagement\User\Actions\SoftDelete;
+use Modules\Management\UserManagement\User\Actions\UpdateData;
+use Modules\Management\UserManagement\User\Actions\BulkActions;
+use Modules\Management\UserManagement\User\Actions\DestroyData;
+use Modules\Management\UserManagement\User\Actions\RestoreData;
+use Modules\Management\UserManagement\User\Actions\GetSingleData;
 
-use App\Modules\Management\UserManagement\User\Actions\DestroyImageData;
-use App\Modules\Management\UserManagement\User\Actions\UserProfileUpdate;
-use App\Modules\Management\UserManagement\User\Actions\UserChangePassword;
-use App\Modules\Management\UserManagement\User\Validations\DataStoreValidation;
-use App\Modules\Management\UserManagement\User\Validations\DataUpdateValidation;
-use App\Modules\Management\UserManagement\User\Validations\BulkActionsValidation;
+use Modules\Management\UserManagement\User\Actions\DestroyImageData;
+use Modules\Management\UserManagement\User\Actions\UserProfileUpdate;
+use Modules\Management\UserManagement\User\Actions\UserChangePassword;
+use Modules\Management\UserManagement\User\Validations\DataStoreValidation;
+use Modules\Management\UserManagement\User\Validations\DataUpdateValidation;
+use Modules\Management\UserManagement\User\Validations\BulkActionsValidation;
 
-use App\Modules\Management\UserManagement\User\Validations\UserProfileUpdateValidation;
-use App\Modules\Management\UserManagement\User\Validations\UserChangePasswordValidation;
+use Modules\Management\UserManagement\User\Validations\UserProfileUpdateValidation;
+use Modules\Management\UserManagement\User\Validations\UserChangePasswordValidation;
 
 
 class Controller extends ControllersController

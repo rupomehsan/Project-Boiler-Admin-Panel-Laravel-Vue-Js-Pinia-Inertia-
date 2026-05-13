@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Modules\Management\Auth\Actions;
+namespace Modules\Management\Auth\Actions;
 
 
-use App\Modules\Mail\OTPSendMail;
+use Modules\Mail\OTPSendMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class SendOtp
 {
-    static $userModel = \App\Modules\Management\UserManagement\User\Models\Model::class;
+    static $userModel = \Modules\Management\UserManagement\User\Database\Models\Model::class;
 
     public static function execute($request)
     {

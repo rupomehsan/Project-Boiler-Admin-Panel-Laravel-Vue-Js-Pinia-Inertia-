@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\Management\BlogManagement\BlogCategory\Actions;
+namespace Modules\Management\BlogManagement\BlogCategory\Actions;
 
 class StoreData
 {
-    static $model = \App\Modules\Management\BlogManagement\BlogCategory\Models\Model::class;
+    static $model = \Modules\Management\BlogManagement\BlogCategory\Database\Models\Model::class;
 
     public static function execute($request)
     {

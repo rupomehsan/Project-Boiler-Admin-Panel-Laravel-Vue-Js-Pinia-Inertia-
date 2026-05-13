@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Modules\Management\UserManagement\User\Actions;
+namespace Modules\Management\UserManagement\User\Actions;
 
 use Illuminate\Support\Facades\DB;
 
 class DestroyImageData
 {
-    static $model = \App\Modules\Management\UserManagement\User\Models\Model::class;
+    static $model = \Modules\Management\UserManagement\User\Database\Models\Model::class;
 
     public static function execute($dbName, $slug)
     {

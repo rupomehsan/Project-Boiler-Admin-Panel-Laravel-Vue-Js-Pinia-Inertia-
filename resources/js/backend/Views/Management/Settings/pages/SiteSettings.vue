@@ -599,8 +599,8 @@
 </template>
 
 <script>
-import { auth_store } from "../../../../../GlobalStore/auth_store";
-import { site_settings_store } from "../../../../../GlobalStore/site_settings_store";
+import { auth_store } from "../../../../GlobalStore/auth_store";
+import { site_settings_store } from "../../../../GlobalStore/site_settings_store";
 import { mapState, mapActions } from "pinia";
 export default {
     data: () => ({

@@ -31,22 +31,12 @@
     <hr />
     <ul class="metismenu" id="menu">
       <!-- <li class="menu-label">Management</li> -->
-      <li>
-        <router-link
-          :to="{ name: `adminDashboard` }"
-          class="border"
-          href="javascript:void();"
-        >
-          <div class="parent-icon">
-            <i class="zmdi zmdi-view-dashboard"></i>
-          </div>
-          <div class="menu-title">Dashboard</div>
-        </router-link>
-      </li>
+
       <side-bar-single-menu
         :icon="`zmdi zmdi-view-dashboard`"
         :menu_title="`Dashboard`"
         :route_name="`adminDashboard`"
+        :class="'border border-primary rounded'"
       />
       <!-- Management start -->
       <side-bar-drop-down-menus
@@ -58,9 +48,50 @@
             title: `User`,
             icon: `zmdi zmdi-dot-circle-alt`,
           },
+          {
+            route_name: `AllRole`,
+            title: `User Role`,
+            icon: `zmdi zmdi-dot-circle-alt`,
+          },
         ]"
       />
-
+ <side-bar-drop-down-menus
+        :icon="`fa fa-plus`"
+        :menu_title="`ProjectManagement`"
+        :menus="[
+          {
+            route_name: `AllProject`,
+            title: `Project`,
+            icon: `zmdi zmdi-dot-circle-alt`,
+          },
+          {
+            route_name: `AllProjectComment`,
+            title: `Project Comments`,
+            icon: `zmdi zmdi-dot-circle-alt`,
+          },
+        ]"
+      />
+      <side-bar-drop-down-menus
+        :icon="`fa fa-plus`"
+        :menu_title="`ProductManagement`"
+        :menus="[
+          {
+            route_name: `AllDigitalProduct`,
+            title: `DigitalProduct`,
+            icon: `zmdi zmdi-dot-circle-alt`,
+          },
+          {
+            route_name: `AllDigitalProductComment`,
+            title: `Product Comments`,
+            icon: `zmdi zmdi-dot-circle-alt`,
+          },
+          {
+            route_name: `AllProductOrder`,
+            title: `ProductOrder`,
+            icon: `zmdi zmdi-dot-circle-alt`,
+          }
+        ]"
+      />
       <side-bar-drop-down-menus
         :icon="`fa fa-plus`"
         :menu_title="`BlogManagement`"
@@ -72,22 +103,57 @@
           },
 
           {
-            route_name: `AllBlogWriter`,
-            title: `BlogWriter`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-          },
-          {
-            route_name: `AllBlogTag`,
-            title: `BlogTag`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-          },
-          {
             route_name: `AllBlog`,
             title: `Blog`,
             icon: `zmdi zmdi-dot-circle-alt`,
           },
+          {
+            route_name: `AllBlogComment`,
+            title: `BlogComment`,
+            icon: `zmdi zmdi-dot-circle-alt`,
+          },
         ]"
       />
+     
+      <side-bar-drop-down-menus
+        :icon="`fa fa-plus`"
+        :menu_title="`CredentialManagement`"
+        :menus="[
+          {
+            route_name: `AllCredential`,
+            title: `Credential`,
+            icon: `zmdi zmdi-dot-circle-alt`,
+          },
+        ]"
+      />
+      <side-bar-drop-down-menus
+        :icon="`fa fa-plus`"
+        :menu_title="`PersonalNoteManagement`"
+        :menus="[
+          {
+            route_name: `AllPersonalNote`,
+            title: `PersonalNote`,
+            icon: `zmdi zmdi-dot-circle-alt`,
+          },
+        ]"
+      />
+      <side-bar-drop-down-menus
+        :icon="`fa fa-plus`"
+        :menu_title="`TodoListManagement`"
+        :menus="[
+          {
+            route_name: `AllTodoList`,
+            title: `TodoList`,
+            icon: `zmdi zmdi-dot-circle-alt`,
+          },
+        ]"
+      />
+      <side-bar-single-menu
+        :icon="`fa fa-plus`"
+        :menu_title="`Contact`"
+        :route_name="`AllContact`"
+      />
+      
 
       <!-- Management end -->
     </ul>
@@ -96,8 +162,8 @@
 
 <script>
 //auth_store
-import { auth_store } from "../../../../../GlobalStore/auth_store";
-import { site_settings_store } from "../../../../../GlobalStore/site_settings_store";
+import { auth_store } from "../../../../GlobalStore/auth_store";
+import { site_settings_store } from "../../../../GlobalStore/site_settings_store";
 import { mapState, mapActions } from "pinia";
 //components
 import SideBarDropDownMenus from "./SideBarDropDownMenus.vue";
@@ -126,7 +192,7 @@ export default {
       window.dispatchEvent(
         new CustomEvent("collapse-all-menus", {
           detail: { except: null },
-        })
+        }),
       );
     },
   },

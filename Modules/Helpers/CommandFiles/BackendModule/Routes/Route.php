@@ -22,7 +22,7 @@ if (!function_exists('RouteContent')) {
         $content = <<<"EOD"
             <?php
 
-            use App\\Modules\\Management\\{$moduleName}\\Controller\\Controller;
+            use Modules\\Management\\{$moduleName}\\Controller\\Controller;
             use Illuminate\Support\Facades\Route;
 
             Route::prefix('v1')->group(function () {

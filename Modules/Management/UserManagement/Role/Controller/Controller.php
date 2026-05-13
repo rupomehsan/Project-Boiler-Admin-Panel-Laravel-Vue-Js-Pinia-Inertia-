@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Modules\Management\UserManagement\Role\Controller;
-use App\Modules\Management\UserManagement\Role\Actions\GetAllData;
-use App\Modules\Management\UserManagement\Role\Actions\DestroyData;
-use App\Modules\Management\UserManagement\Role\Actions\GetSingleData;
-use App\Modules\Management\UserManagement\Role\Actions\StoreData;
-use App\Modules\Management\UserManagement\Role\Actions\UpdateData;
-use App\Modules\Management\UserManagement\Role\Actions\SoftDelete;
-use App\Modules\Management\UserManagement\Role\Actions\RestoreData;
-use App\Modules\Management\UserManagement\Role\Actions\ImportData;
-use App\Modules\Management\UserManagement\Role\Validations\BulkActionsValidation;
-use App\Modules\Management\UserManagement\Role\Validations\DataStoreValidation;
-use App\Modules\Management\UserManagement\Role\Actions\BulkActions;
+namespace Modules\Management\UserManagement\Role\Controller;
+use Modules\Management\UserManagement\Role\Actions\GetAllData;
+use Modules\Management\UserManagement\Role\Actions\DestroyData;
+use Modules\Management\UserManagement\Role\Actions\GetSingleData;
+use Modules\Management\UserManagement\Role\Actions\StoreData;
+use Modules\Management\UserManagement\Role\Actions\UpdateData;
+use Modules\Management\UserManagement\Role\Actions\SoftDelete;
+use Modules\Management\UserManagement\Role\Actions\RestoreData;
+use Modules\Management\UserManagement\Role\Actions\ImportData;
+use Modules\Management\UserManagement\Role\Actions\UpdateStatus;
+use Modules\Management\UserManagement\Role\Validations\BulkActionsValidation;
+use Modules\Management\UserManagement\Role\Validations\DataStoreValidation;
+use Modules\Management\UserManagement\Role\Actions\BulkActions;
 use App\Http\Controllers\Controller as ControllersController;
 
 
@@ -65,6 +66,12 @@ class Controller extends ControllersController
     public function bulkAction(BulkActionsValidation $request)
     {
         $data = BulkActions::execute($request);
+        return $data;
+    }
+
+    public function updateStatus()
+    {
+        $data = UpdateStatus::execute();
         return $data;
     }
 

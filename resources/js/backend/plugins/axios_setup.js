@@ -89,28 +89,68 @@ window.axios.interceptors.response.use(
         let object = error.response?.data?.errors;
         render_form_errors(object);
 
-        if (typeof error?.response?.data === "string") {
-            console.log(
-                "error",
-                error?.response?.data ? error?.response?.data : error.response
-            );
-        } else {
-            // console.log(error.response || error);
-            if (error.response.data.status == "server_error") {
-                window.s_warning(error.response.data.message);
-            }
-            if (error.response.data.status == "error") {
-                window.s_error(error.response.data.message);
-            }
+        const status = error.response?.status;
+        const data = error.response?.data;
+
+        // Handle connection/network errors
+        if (!error.response) {
+            window.s_error("Network error! Please check your internet connection.");
+            return Promise.reject(error);
         }
 
-        // if(error.response.status == 401){
-        //     window.clear_session();
-        // }
-        // console.log(error);
-        // let status = error.response.status;
-        // window.s_alert('error '+status+': '+error.response?.statusText,'error')
-        throw error;
+        // Handle 404 errors
+        if (status === 404) {
+            const message = data?.message || "Resource not found (404)";
+            window.s_error(message);
+            return Promise.reject(error);
+        }
+
+        // Handle 401 Unauthorized
+        if (status === 401) {
+            const message = data?.message || "Unauthorized! Please login again.";
+            window.s_error(message);
+            window.clear_session?.();
+            return Promise.reject(error);
+        }
+
+        // Handle 403 Forbidden
+        if (status === 403) {
+            const message = data?.message || "Forbidden! You don't have permission.";
+            window.s_error(message);
+            return Promise.reject(error);
+        }
+
+        // Handle validation errors (422)
+        if (status === 422) {
+            const message = data?.message || "Validation failed! Please check your input.";
+            window.s_error(message);
+            return Promise.reject(error);
+        }
+
+        // Handle server errors (5xx)
+        if (status >= 500) {
+            const message = data?.message || "Server error! Please try again later.";
+            window.s_error(message);
+            return Promise.reject(error);
+        }
+
+        // Handle response with message
+        if (data?.message) {
+            if (data.status === "server_error") {
+                window.s_warning(data.message);
+            } else if (data.status === "error") {
+                window.s_error(data.message);
+            } else {
+                window.s_error(data.message);
+            }
+            return Promise.reject(error);
+        }
+
+        // Fallback error message
+        const fallbackMessage = `Error ${status}: ${error.message}`;
+        window.s_error(fallbackMessage);
+
+        return Promise.reject(error);
     }
 );
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Modules\Management\SettingManagement\WebsiteSettings\Actions;
+namespace Modules\Management\SettingManagement\WebsiteSettings\Actions;
 
 use Illuminate\Support\Facades\DB;
 
 class StoreData
 {
-    static $model = \App\Modules\Management\SettingManagement\WebsiteSettings\Models\Model::class;
-    static $SettingValueModel = \App\Modules\Management\SettingManagement\WebsiteSettings\Models\SettingValueModel::class;
+    static $model = \Modules\Management\SettingManagement\WebsiteSettings\Database\Models\Model::class;
+    static $SettingValueModel = \Modules\Management\SettingManagement\WebsiteSettings\Database\Models\SettingValueModel::class;
 
     public static function execute()
     {

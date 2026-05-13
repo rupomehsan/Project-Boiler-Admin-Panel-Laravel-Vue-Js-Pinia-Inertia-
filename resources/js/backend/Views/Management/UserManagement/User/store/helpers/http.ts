@@ -1,5 +1,5 @@
 import axios from "axios";
-import { anyObject } from "../../../../../../../../common_types/object";
+import { anyObject } from "@/common_types/object";
 
 interface EndpointInfo {
   href: string;

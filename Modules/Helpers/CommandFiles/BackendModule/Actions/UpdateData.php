@@ -33,11 +33,11 @@ if (!function_exists('UpdateData')) {
             $content = <<<"EOD"
             <?php
 
-            namespace App\\Modules\\Management\\{$moduleName}\\Actions;
+            namespace Modules\\Management\\{$moduleName}\\Actions;
 
             class UpdateData
             {
-                static \$model = \App\\Modules\\Management\\{$moduleName}\\Models\\Model::class;
+                static \$model = \Modules\\Management\\{$moduleName}\\Database\\Models\\Model::class;
 
                 public static function execute(\$request,\$slug)
                 {
@@ -61,11 +61,11 @@ if (!function_exists('UpdateData')) {
             $content = <<<"EOD"
             <?php
 
-            namespace App\\Modules\\Management\\{$moduleName}\\Actions;
+            namespace Modules\\Management\\{$moduleName}\\Actions;
 
             class UpdateData
             {
-                static \$model = \App\\Modules\\Management\\{$moduleName}\\Models\\Model::class;
+                static \$model = \Modules\\Management\\{$moduleName}\\Database\\Models\\Model::class;
 
                 public static function execute(\$request,\$slug)
                 {

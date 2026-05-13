@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Modules\Management\BlogManagement\BlogTag\Controller;
-use App\Modules\Management\BlogManagement\BlogTag\Actions\GetAllData;
-use App\Modules\Management\BlogManagement\BlogTag\Actions\DestroyData;
-use App\Modules\Management\BlogManagement\BlogTag\Actions\GetSingleData;
-use App\Modules\Management\BlogManagement\BlogTag\Actions\StoreData;
-use App\Modules\Management\BlogManagement\BlogTag\Actions\UpdateData;
-use App\Modules\Management\BlogManagement\BlogTag\Actions\UpdateStatus;
-use App\Modules\Management\BlogManagement\BlogTag\Actions\SoftDelete;
-use App\Modules\Management\BlogManagement\BlogTag\Actions\RestoreData;
-use App\Modules\Management\BlogManagement\BlogTag\Actions\ImportData;
-use App\Modules\Management\BlogManagement\BlogTag\Validations\BulkActionsValidation;
-use App\Modules\Management\BlogManagement\BlogTag\Validations\DataStoreValidation;
-use App\Modules\Management\BlogManagement\BlogTag\Actions\BulkActions;
+namespace Modules\Management\BlogManagement\BlogTag\Controller;
+use Modules\Management\BlogManagement\BlogTag\Actions\GetAllData;
+use Modules\Management\BlogManagement\BlogTag\Actions\DestroyData;
+use Modules\Management\BlogManagement\BlogTag\Actions\GetSingleData;
+use Modules\Management\BlogManagement\BlogTag\Actions\StoreData;
+use Modules\Management\BlogManagement\BlogTag\Actions\UpdateData;
+use Modules\Management\BlogManagement\BlogTag\Actions\UpdateStatus;
+use Modules\Management\BlogManagement\BlogTag\Actions\SoftDelete;
+use Modules\Management\BlogManagement\BlogTag\Actions\RestoreData;
+use Modules\Management\BlogManagement\BlogTag\Actions\ImportData;
+use Modules\Management\BlogManagement\BlogTag\Validations\BulkActionsValidation;
+use Modules\Management\BlogManagement\BlogTag\Validations\DataStoreValidation;
+use Modules\Management\BlogManagement\BlogTag\Actions\BulkActions;
 use App\Http\Controllers\Controller as ControllersController;
 
 

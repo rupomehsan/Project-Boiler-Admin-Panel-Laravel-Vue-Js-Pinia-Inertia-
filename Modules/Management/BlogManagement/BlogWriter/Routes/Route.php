@@ -1,6 +1,6 @@
 <?php
 
-use App\Modules\Management\BlogManagement\BlogWriter\Controller\Controller;
+use Modules\Management\BlogManagement\BlogWriter\Controller\Controller;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {

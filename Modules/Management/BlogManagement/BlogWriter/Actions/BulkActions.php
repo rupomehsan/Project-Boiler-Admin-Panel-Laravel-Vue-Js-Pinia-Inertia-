@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\Management\BlogManagement\BlogWriter\Actions;
+namespace Modules\Management\BlogManagement\BlogWriter\Actions;
 
 class BulkActions
 {
-    static $model = \App\Modules\Management\BlogManagement\BlogWriter\Models\Model::class;
+    static $model = \Modules\Management\BlogManagement\BlogWriter\Database\Models\Model::class;
 
     public static function execute()
     {

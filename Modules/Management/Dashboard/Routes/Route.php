@@ -1,6 +1,6 @@
 <?php
 
-use  App\Modules\Management\Dashboard\Controller\Controller;
+use  Modules\Management\Dashboard\Controller\Controller;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->middleware('auth:api')->group(function () {

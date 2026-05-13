@@ -1,83 +1,10 @@
 
 /*
 |--------------------------------------------------------------------------
-| User Management
-|--------------------------------------------------------------------------
-*/ 
-
-php artisan make:table UserManagement/User/UserAddress [user_id:bigint,phone_number:json,address:text,country:string-255,city:string-255,state:string-255,post:string-255] --model
-php artisan make:table UserManagement/User/UserSocialLink [user_id:bigint,media_name:string-100,link:string-100] --model
-php artisan make:table UserManagement/User/UserLog [user_id:bigint,last_seen:string-255,log_details:json] --model
-
-/*
-|--------------------------------------------------------------------------
-| Vocabolary Manamgement
-|---------- ----------------------------------------------------------------
-*/ 
-
-php artisan make:module VocabularyManagement/Vocabulary [word:string,language:enum-english.bangla,label:enum-basic.medium.advance.professional,meaning:text,part_of_speech:string,example_sentence:text,synonyms:json,antonyms:json,keyword:json] --vue
-php artisan make:module VocabularyManagement/VocabolaryStoryGroup [name:string] --vue
-php artisan make:module VocabularyManagement/VocabolaryStory [story_group_id:bigint,story:text,image:string,story_image:json,keyword:json] --vue 
-php artisan make:table VocabularyManagement/VocabolaryStory/VocabolaryStoryWord [vocabolary_story_id:bigint,word_id:bigint] --model 
-
-php artisan make:module SentenceManagement/SentenceGroup [sentence:string] --vue
-php artisan make:module SentenceManagement/Sentence [sentence:text,language:enum-english.bangla,label:enum-basic.medium.advance.professional,meaning:text] --vue
-php artisan make:module SentenceManagement/SentenceRule [sentence:text,language:enum-english.bangla,label:enum-basic.medium.advance.professional,meaning:text,example:json] --vue
-
-
-
-/*
-|--------------------------------------------------------------------------
-| Quiz
-|---------- ----------------------------------------------------------------
-*/  
-php artisan make:module QuizManagement/QuizQuestionTopic [title:string-200] --vue
-
-php artisan make:module QuizManagement/QuizQuestion [quiz_question_topic_id:bigint{QuizManagement/QuizQuestionTopic},title:string-255,question_level:enum-easy.medium.hard,mark:float,is_multiple:boolean,session_year:string-20] --vue
-php artisan make:table QuizManagement/QuizQuestion/QuizQuestionOption [quiz_question_id:bigint,title:string-255,is_correct:boolean,image:string-255] --model
-
-php artisan make:module QuizManagement/Quiz [title:string-255,description:text,total_question:int,exam_start_datetime:datetime,exam_end_datetime:datetime,total_mark:float,pass_mark:float,is_negative_marking:boolean,negative_value:float] --vue
-php artisan make:table QuizManagement/Quiz/QuizQuizQuestion [quiz_id:bigint,quiz_question_id:bigint] --model
-php artisan make:table QuizManagement/Quiz/QuizSubmission [user_id:bigint,quiz_id:bigint,quiz_question_id:bigint,quiz_question_option_id:json,course_module_class_id:bigint,is_correct:boolean] --model
-php artisan make:module QuizManagement/QuizSubmissionResult [user_id:bigint,quiz_id:bigint{QuizManagement/Quiz},submission_no:tinyint,course_module_class_id:bigint{CourseManagement/CourseModuleClass},quiz_mark:float,obtain_mark:float,submission_datetime:datetime] --vue
-
-/*
-|--------------------------------------------------------------------------
-| Blog  
+| Blog  Management
 |--------------------------------------------------------------------------
 */  
-php artisan make:module BlogManagement/BlogCategory [title:string-100,description:text] --vue
-php artisan make:table BlogManagement/BlogCategory/BlogBlogCategory [blog_id:bigint,blog_category_id:bigint] --model
 
-php artisan make:module BlogManagement/Blog [blog_category_id:bigint{BlogManagement/BlogCategory},title:string-100,description:text,tags:text,publish_date:datetime,writer:bigint{BlogManagement/BlogWriter},thumbnail_image:string-100,images:text,blog_type:string-100,url:string-100,show_top:string-100,contributors:json,is_featured:boolean,is_published:boolean] --vue
-php artisan make:table BlogManagement/Blog/BlogMeta [blog_id:bigint,title:string-150,description:longtext,keywords:string-150,image:string-100,image_alter_text:string-150,image_title:string-150] --model
-php artisan make:table BlogManagement/Blog/BlogComment [blog_id:bigint,user_id:bigint,comment:text] --model
-php artisan make:table BlogManagement/Blog/BlogCommentReply [blog_comment_id:bigint,comment:json,user_id:bigint] --model
-php artisan make:table BlogManagement/Blog/BlogCommentBlogCommentReply [blog_comment_id:bigint,blog_comment_reply_id:bigint] --model
-php artisan make:table BlogManagement/Blog/BlogVideoLink [blog_id:bigint,video_link:string-50] --model
-php artisan make:table BlogManagement/Blog/BlogView [blog_id:bigint,user_id:bigint,ip:string-100] --model
+php artisan make:module BlogManagement/Blog [blog_category_id:bigint,title:string-150,description:text,content:longtext,reading_time:integer,tags:text,publish_date:datetime,writer:bigint,thumbnail_image:string-100,images:text,blog_type:string-100,url:string-150,show_top:string-100,contributors:json,video_link:string-50,is_featured:boolean,is_published:boolean] --vue
 
-php artisan make:module BlogManagement/BlogWriter [name:string-100] --vue
-php artisan make:module BlogManagement/BlogTag [title:string-150] --vue
-
-/*
-|--------------------------------------------------------------------------
-| Gallery Management
-|--------------------------------------------------------------------------
-*/  
-php artisan make:module GalleryManagement/GalleryCategory [title:string-255,description:text] --vue
-php artisan make:module GalleryManagement/Gallery [gallery_category_id:bigint{GalleryManagement/GalleryCategory},title:string-255,description:text,image:string-255,top_image:boolean] --vue
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+php artisan make:module ProductManagement/DigitalProduct/ProductOrder [digital_product_id:bigint,first_name:string-150,last_name:string-150,email:string-150,trx_number:string-150,payment_details:json,payment_status:enum.pending.due.compelete] --model

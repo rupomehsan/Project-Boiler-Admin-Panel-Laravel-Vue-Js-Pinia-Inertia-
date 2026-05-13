@@ -1,18 +1,28 @@
 <?php
 
-namespace App\Modules\Management\BlogManagement\Blog\Controller;
-use App\Modules\Management\BlogManagement\Blog\Actions\GetAllData;
-use App\Modules\Management\BlogManagement\Blog\Actions\DestroyData;
-use App\Modules\Management\BlogManagement\Blog\Actions\GetSingleData;
-use App\Modules\Management\BlogManagement\Blog\Actions\StoreData;
-use App\Modules\Management\BlogManagement\Blog\Actions\UpdateData;
-use App\Modules\Management\BlogManagement\Blog\Actions\UpdateStatus;
-use App\Modules\Management\BlogManagement\Blog\Actions\SoftDelete;
-use App\Modules\Management\BlogManagement\Blog\Actions\RestoreData;
-use App\Modules\Management\BlogManagement\Blog\Actions\ImportData;
-use App\Modules\Management\BlogManagement\Blog\Validations\BulkActionsValidation;
-use App\Modules\Management\BlogManagement\Blog\Validations\DataStoreValidation;
-use App\Modules\Management\BlogManagement\Blog\Actions\BulkActions;
+namespace Modules\Management\BlogManagement\Blog\Controller;
+use Modules\Management\BlogManagement\Blog\Actions\GetAllData;
+use Modules\Management\BlogManagement\Blog\Actions\DestroyData;
+use Modules\Management\BlogManagement\Blog\Actions\GetSingleData;
+use Modules\Management\BlogManagement\Blog\Actions\StoreData;
+use Modules\Management\BlogManagement\Blog\Actions\UpdateData;
+use Modules\Management\BlogManagement\Blog\Actions\UpdateStatus;
+use Modules\Management\BlogManagement\Blog\Actions\SoftDelete;
+use Modules\Management\BlogManagement\Blog\Actions\RestoreData;
+use Modules\Management\BlogManagement\Blog\Actions\ImportData;
+use Modules\Management\BlogManagement\Blog\Actions\BulkActions;
+use Modules\Management\BlogManagement\Blog\Actions\GetAllComments;
+use Modules\Management\BlogManagement\Blog\Actions\GetBlogComments;
+use Modules\Management\BlogManagement\Blog\Actions\GetCommentReplies;
+use Modules\Management\BlogManagement\Blog\Actions\SubmitComment;
+use Modules\Management\BlogManagement\Blog\Actions\SubmitCommentReply;
+use Modules\Management\BlogManagement\Blog\Actions\GetSingleBlog;
+use Modules\Management\BlogManagement\Blog\Actions\SubmitBlogLike;
+use Modules\Management\BlogManagement\Blog\Actions\GetBlogCategoriesWithCount;
+use Modules\Management\BlogManagement\Blog\Validations\BulkActionsValidation;
+use Modules\Management\BlogManagement\Blog\Validations\DataStoreValidation;
+use Modules\Management\BlogManagement\Blog\Validations\CommentValidation;
+use Modules\Management\BlogManagement\Blog\Validations\CommentReplyValidation;
 use App\Http\Controllers\Controller as ControllersController;
 
 
@@ -72,6 +82,52 @@ class Controller extends ControllersController
     {
         $data = BulkActions::execute($request);
         return $data;
+    }
+
+    // Blog Comment Methods
+    public function getAllComments()
+    {
+        $data = GetAllComments::execute();
+        return $data;
+    }
+
+    public function getBlogComments($blog_id)
+    {
+        $data = GetBlogComments::execute($blog_id);
+        return $data;
+    }
+
+    public function submitComment(CommentValidation $request)
+    {
+        $data = SubmitComment::execute($request);
+        return $data;
+    }
+
+    public function submitCommentReply(CommentReplyValidation $request)
+    {
+        $data = SubmitCommentReply::execute($request);
+        return $data;
+    }
+
+    public function getCommentReplies($comment_id)
+    {
+        $data = GetCommentReplies::execute($comment_id);
+        return $data;
+    }
+
+    public function getSingleBlog($slug)
+    {
+        return GetSingleBlog::execute($slug);
+    }
+
+    public function submitBlogLike($blog_id)
+    {
+        return SubmitBlogLike::execute($blog_id);
+    }
+
+    public function getBlogCategories()
+    {
+        return GetBlogCategoriesWithCount::execute();
     }
 
 }

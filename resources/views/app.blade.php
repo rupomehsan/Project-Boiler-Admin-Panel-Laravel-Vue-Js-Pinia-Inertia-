@@ -10,9 +10,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap.css') }}">
+    
+    {{-- Theme CSS --}}
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
 
     {{-- inertia Head --}}
     @inertiaHead
+    
+    {{-- Initialize Theme Manager --}}
+    <script src="{{ asset('js/themeManager.js') }}"></script>
 </head>
 
 <body>

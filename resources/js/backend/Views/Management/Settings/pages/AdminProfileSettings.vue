@@ -375,7 +375,7 @@
 </template>
 
 <script>
-import { auth_store } from "../../../../../GlobalStore/auth_store";
+import { auth_store } from "../../../../GlobalStore/auth_store";
 import { settings_store } from "../store/store";
 import { mapState, mapActions } from "pinia";
 import MultipleInputField from "../components/MultipleInputField.vue";

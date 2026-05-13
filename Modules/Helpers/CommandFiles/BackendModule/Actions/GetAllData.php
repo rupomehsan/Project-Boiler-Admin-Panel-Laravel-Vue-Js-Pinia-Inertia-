@@ -40,11 +40,11 @@ if (!function_exists('GetAllData')) {
         $content = <<<"EOD"
         <?php
 
-        namespace App\\Modules\\Management\\{$moduleName}\\Actions;
+        namespace Modules\\Management\\{$moduleName}\\Actions;
 
         class GetAllData
         {
-            static \$model = \App\Modules\\Management\\{$moduleName}\\Models\\Model::class;
+            static \$model = \Modules\\Management\\{$moduleName}\\Database\\Models\\Model::class;
 
             public static function execute()
             {
@@ -96,8 +96,8 @@ if (!function_exists('GetAllData')) {
                         }
                     }
 
-                    if (\$status == 'trased') {
-                        \$data = \$data->trased();
+                    if (\$status == 'trashed') {
+                        \$data = \$data->onlyTrashed();
                     }
 
                     if (request()->has('get_all') && (int)request()->input('get_all') === 1) {
@@ -110,7 +110,7 @@ if (!function_exists('GetAllData')) {
                             ->orderBy(\$orderByColumn, \$orderByType)
                             ->get();
                              return entityResponse(\$data);
-                    } else if (\$status == 'trased') {
+                    } else if (\$status == 'trashed') {
                         \$data = \$data
                             ->with(\$with)
                             ->select(\$fields)
@@ -131,7 +131,7 @@ if (!function_exists('GetAllData')) {
                         ...\$data->toArray(),
                         "active_data_count" => self::\$model::active()->count(),
                         "inactive_data_count" => self::\$model::inactive()->count(),
-                        "trased_data_count" => self::\$model::trased()->count(),
+                        "trashed_data_count" => self::\$model::onlyTrashed()->count(),
                     ]);
 
                 } catch (\Exception \$e) {

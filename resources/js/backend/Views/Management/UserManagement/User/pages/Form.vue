@@ -11,26 +11,45 @@
             }}
           </h5>
           <div>
-            <router-link v-if="item.slug" class="btn btn-outline-info mr-2 btn-sm" :to="{
-              name: `Details${setup.route_prefix}`,
-              params: { id: item.slug },
-            }">
+            <router-link
+              v-if="item.slug"
+              class="btn btn-outline-info mr-2 btn-sm"
+              :to="{
+                name: `Details${setup.route_prefix}`,
+                params: { id: item.slug },
+              }"
+            >
               {{ setup.details_page_title }}
             </router-link>
-            <router-link class="btn btn-outline-warning btn-sm" :to="{ name: `All${setup.route_prefix}` }">
+            <router-link
+              class="btn btn-outline-warning btn-sm"
+              :to="{ name: `All${setup.route_prefix}` }"
+            >
               {{ setup.all_page_title }}
             </router-link>
           </div>
         </div>
         <div class="card-body card_body_fixed_height">
-           <div class="d-flex justify-content-between align-items-center pb-2 section-title">
+          <div
+            class="d-flex justify-content-between align-items-center pb-2 section-title"
+          >
             <h5 class="m-0">User Information</h5>
-        </div>
+          </div>
           <div class="row">
-            <template v-for="(form_field, index) in form_fields" v-bind:key="index">
-              <common-input :label="form_field.label" :type="form_field.type" :name="form_field.name"
-                :multiple="form_field.multiple" :value="form_field.value" :data_list="form_field.data_list"
-                :is_visible="form_field.is_visible" :row_col_class="form_field.row_col_class" />
+            <template
+              v-for="(form_field, index) in form_fields"
+              v-bind:key="index"
+            >
+              <common-input
+                :label="form_field.label"
+                :type="form_field.type"
+                :name="form_field.name"
+                :multiple="form_field.multiple"
+                :value="form_field.value"
+                :data_list="form_field.data_list"
+                :is_visible="form_field.is_visible"
+                :class="form_field.class"
+              />
             </template>
             <address-input :name="`phone_number`" />
             <multi-chip :name="`phone_number`" />

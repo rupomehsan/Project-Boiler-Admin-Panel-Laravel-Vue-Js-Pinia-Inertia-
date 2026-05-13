@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Management\BlogManagement\Blog\Validations;
+namespace Modules\Management\BlogManagement\Blog\Validations;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -45,17 +45,25 @@ class DataStoreValidation extends FormRequest
             'blog_category_id' => 'required | sometimes',
             'title' => 'required | sometimes',
             'description' => 'required | sometimes',
-            'tags' => 'required | sometimes',
-            'publish_date' => 'required | sometimes',
-            'writer' => 'required | sometimes',
-            'thumbnail_image' => 'required | sometimes',
-            'images' => 'required | sometimes',
-            'blog_type' => 'required | sometimes',
-            'url' => 'required | sometimes',
-            'show_top' => 'required | sometimes',
-            'contributors' => 'required | sometimes',
-            'is_featured' => 'required | sometimes',
-            'is_published' => 'required | sometimes',
+            'content' => ' sometimes',
+            'reading_time' => ' sometimes',
+            'tags' => ' sometimes',
+            'publish_date' => ' sometimes',
+            'writer' => ' sometimes',
+            'thumbnail_image' => ' sometimes',
+            'images'            => 'sometimes|nullable|array',
+            'images.*'          => 'sometimes|file|mimes:jpg,jpeg,png,webp,gif,avif,svg',
+            'images_kept'       => 'sometimes|nullable|array',
+            'images_kept.*'     => 'sometimes|string',
+            'images_present'    => 'sometimes|nullable',
+            'thumbnail_image_clear' => 'sometimes|nullable',
+            'blog_type' => ' sometimes',
+            'url' => ' sometimes',
+            'show_top' => ' sometimes',
+            'contributors' => ' sometimes',
+            'video_link' => ' sometimes',
+            'is_featured' => ' sometimes',
+            'is_published' => ' sometimes',
             'status' => ['sometimes', Rule::in(['active', 'inactive'])],
         ];
     }

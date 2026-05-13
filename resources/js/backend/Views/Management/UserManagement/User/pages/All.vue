@@ -301,7 +301,7 @@
                   class="btn action_btn btn-sm btn-danger d-flex align-items-center"
                 >
                   <i class="fa fa-trash mr-2"></i> Trased ({{
-                    trased_data_count
+                    trashed_data_count
                   }})
                 </a>
               </div>
@@ -608,7 +608,7 @@ export default {
       }
     },
     change_status: function (status = "active") {
-      if (status == "trased") {
+      if (status == "trashed") {
         this.is_trashed_data = true;
       } else {
         this.is_trashed_data = false;
@@ -700,7 +700,7 @@ export default {
       "show_filter_canvas",
       "active_data_count",
       "inactive_data_count",
-      "trased_data_count",
+      "trashed_data_count",
       "status",
       "selected",
       "paginate",
@@ -728,25 +728,6 @@ export default {
         this.is_trashed_data = newValue;
       },
       immediate: true,
-    },
-
-    start_date: {
-      handler: function (v) {
-        let data = {
-          start_date: v,
-        };
-        this.set_filter_criteria(data);
-      },
-      deep: true,
-    },
-    end_date: {
-      handler: function (v) {
-        let data = {
-          end_date: v,
-        };
-        this.set_filter_criteria(data);
-      },
-      deep: true,
     },
   },
 };

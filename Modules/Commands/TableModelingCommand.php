@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Commands;
+namespace Modules\Commands;
 
 
 use Illuminate\Console\Command;
@@ -55,7 +55,7 @@ class TableModelingCommand extends Command
 
     protected function prepareDirectories()
     {
-        $this->baseDirectory = app_path("Modules/Management/");
+        $this->baseDirectory = base_path("Modules/Management/");
         $parts = explode('/', $this->moduleName);
         $this->finalModule = end($parts);
 
@@ -76,8 +76,8 @@ class TableModelingCommand extends Command
         $this->modelFile = "{$this->finalModule}Model.php";
         $this->modulePath = $this->moduleDir ? "{$this->moduleDir}/{$this->finalModule}" : $this->finalModule;
 
-        $this->modelDirectory = $this->baseDirectory . 'Models';
-        $this->databaseDirectory = $this->baseDirectory . 'Database';
+        $this->modelDirectory = $this->baseDirectory . 'Database/Models';
+        $this->databaseDirectory = $this->baseDirectory . 'Database/Migrations';
 
         if (!File::isDirectory($this->modelDirectory)) {
             File::makeDirectory($this->modelDirectory, 0777, true);
@@ -116,7 +116,7 @@ class TableModelingCommand extends Command
  
          // Construct the path for migration
          // $path = "/app/Modules/Management/{$moduleDirectory}/{$lastPart}/Database/create_{$tableName}_table.php";
-        $path = "/app/Modules/Management/{$moduleDirectory}/Database/create_{$tableName}_table.php";
+        $path = "/Modules/Management/{$moduleDirectory}/Database/Migrations/create_{$tableName}_table.php";
 
         Artisan::call('migrate', ['--path' => $path]);
     }

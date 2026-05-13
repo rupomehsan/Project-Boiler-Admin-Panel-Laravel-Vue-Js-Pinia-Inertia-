@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\UserActivityEvent;
-use Modules\Management\UserManagement\User\Models\UserLogModel;
+use Modules\Management\UserManagement\User\Database\Models\UserLogModel;
 use Illuminate\Support\Facades\Log;
 
 class LogUserActivity

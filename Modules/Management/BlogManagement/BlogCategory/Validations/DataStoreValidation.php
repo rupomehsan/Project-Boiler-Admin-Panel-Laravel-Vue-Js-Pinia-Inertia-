@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Management\BlogManagement\BlogCategory\Validations;
+namespace Modules\Management\BlogManagement\BlogCategory\Validations;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -44,6 +44,7 @@ class DataStoreValidation extends FormRequest
         return [
             'title' => 'required | sometimes',
             'description' => 'required | sometimes',
+            'icon' => 'required | sometimes',
             'status' => ['sometimes', Rule::in(['active', 'inactive'])],
         ];
     }

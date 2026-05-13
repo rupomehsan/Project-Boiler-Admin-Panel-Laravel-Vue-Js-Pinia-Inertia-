@@ -1,6 +1,6 @@
 <?php
 
-use App\Modules\Management\SettingManagement\WebsiteSettings\Controller\Controller;
+use Modules\Management\SettingManagement\WebsiteSettings\Controller\Controller;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {

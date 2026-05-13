@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\Management\UserManagement\Role\Actions;
+namespace Modules\Management\UserManagement\Role\Actions;
 
 class GetAllData
 {
-    static $model = \App\Modules\Management\UserManagement\Role\Models\Model::class;
+    static $model = \Modules\Management\UserManagement\Role\Database\Models\Model::class;
 
     public static function execute()
     {
@@ -14,7 +14,13 @@ class GetAllData
             $orderByColumn = request()->input('sort_by_col') ?? 'id';
             $orderByType = request()->input('sort_type') ?? 'desc';
             $status = request()->input('status') ?? 'active';
-            $fields = request()->input('fields') ?? '*';
+            
+            // Handle fields parameter - can be passed as fields[0], fields[1], etc.
+            $fields = request()->input('fields');
+            if (empty($fields) || !is_array($fields)) {
+                $fields = '*'; // Default to all fields
+            }
+            
             $start_date = request()->input('start_date');
             $end_date = request()->input('end_date');
             $with = [];

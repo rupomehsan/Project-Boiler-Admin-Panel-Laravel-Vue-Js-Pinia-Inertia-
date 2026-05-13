@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\Management\BlogManagement\BlogTag\Actions;
+namespace Modules\Management\BlogManagement\BlogTag\Actions;
 
 class DestroyData
 {
-    static $model = \App\Modules\Management\BlogManagement\BlogTag\Models\Model::class;
+    static $model = \Modules\Management\BlogManagement\BlogTag\Database\Models\Model::class;
 
     public static function execute($slug)
     {

@@ -18,11 +18,11 @@ if (!function_exists('SoftDelete')) {
         $content = <<<"EOD"
             <?php
 
-            namespace App\\Modules\\Management\\{$moduleName}\\Actions;
+            namespace Modules\\Management\\{$moduleName}\\Actions;
 
             class SoftDelete
             {
-                static \$model = \App\\Modules\\Management\\{$moduleName}\\Models\\Model::class;
+                static \$model = \Modules\\Management\\{$moduleName}\\Database\\Models\\Model::class;
 
                 public static function execute()
                 {

@@ -8,6 +8,14 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+    /**
+     * The commands provided by your application.
+     */
+    protected $commands = [
+        \Modules\Commands\ModelingDirectory::class,
+        \Modules\Commands\TableModelingCommand::class,
+        \Modules\Commands\RunModuleCommands::class,
+    ];
 
     /**
      * Define the application's command schedule.
@@ -22,6 +30,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
+        $this->load(__DIR__ . '/Commands');
         $this->load(__DIR__ . '/../../Modules/Commands');
 
         require base_path('routes/console.php');

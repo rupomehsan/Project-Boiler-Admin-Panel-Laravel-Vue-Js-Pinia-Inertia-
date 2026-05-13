@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Modules\Management\BlogManagement\BlogTag\Actions;
-use App\Modules\Management\BlogManagement\BlogTag\Others\ImportJob;
+namespace Modules\Management\BlogManagement\BlogTag\Actions;
+use Modules\Management\BlogManagement\BlogTag\Others\ImportJob;
 use Illuminate\Support\Facades\Bus;
 use Maatwebsite\Excel\Facades\Excel;
 class ImportData
 {
-    static $model = \App\Modules\Management\BlogManagement\BlogTag\Models\Model::class;
+    static $model = \Modules\Management\BlogManagement\BlogTag\Database\Models\Model::class;
 
     public static function execute()
     {

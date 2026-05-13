@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Modules\Management\Auth\Actions;
+namespace Modules\Management\Auth\Actions;
 
-use App\Modules\Auth\Validations\RegisterValidation;
+use Modules\Auth\Validations\RegisterValidation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class Register
 {
-    static $model = \App\Modules\Management\UserManagement\User\Models\Model::class;
+    static $model = \Modules\Management\UserManagement\User\Database\Models\Model::class;
 
     public static function Register($request)
     {

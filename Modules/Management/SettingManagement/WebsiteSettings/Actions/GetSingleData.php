@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Modules\Management\SettingManagement\WebsiteSettings\Actions;
+namespace Modules\Management\SettingManagement\WebsiteSettings\Actions;
 
 
 
 class GetSingleData
 {
-    static $model = \App\Modules\Management\SettingManagement\WebsiteSettings\Models\Model::class;
+    static $model = \Modules\Management\SettingManagement\WebsiteSettings\Models\Model::class;
 
     public static function execute($slug)
     {

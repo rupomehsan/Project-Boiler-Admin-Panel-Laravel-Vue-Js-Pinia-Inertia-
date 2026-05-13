@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Modules\Management\Dashboard\Controller;
+namespace Modules\Management\Dashboard\Controller;
 
-use App\Modules\Management\Dashboard\Actions\GetAllDashboardData;
-use App\Modules\Management\Dashboard\Actions\GetEmployeeDashboardData;
+use Modules\Management\Dashboard\Actions\GetAllDashboardData;
+use Modules\Management\Dashboard\Actions\GetEmployeeDashboardData;
 
 use App\Http\Controllers\Controller as ControllersController;
 

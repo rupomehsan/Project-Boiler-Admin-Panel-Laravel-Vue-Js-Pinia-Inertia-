@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Modules\Management\BlogManagement\Blog\Actions;
+namespace Modules\Management\BlogManagement\Blog\Actions;
 
 
 
 class GetSingleData
 {
-    static $model = \App\Modules\Management\BlogManagement\Blog\Models\Model::class;
+    static $model = \Modules\Management\BlogManagement\Blog\Database\Models\Model::class;
 
     public static function execute($slug)
     {
         try {
-                             $with = ['blog_category_id'];
-                 $with = ['writer'];
+
+            $with = ['blog_category:id,title'];
 
             $fields = request()->input('fields') ?? ['*'];
             if (!$data = self::$model::query()->with($with)->select($fields)->where('slug', $slug)->first()) {

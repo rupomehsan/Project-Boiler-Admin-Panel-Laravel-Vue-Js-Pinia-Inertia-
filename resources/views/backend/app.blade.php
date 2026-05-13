@@ -29,6 +29,10 @@
     <link href="{{ asset('backend/assets/css/custom/custom.css') }}" rel="stylesheet" />
     <link href="{{ asset('backend/assets/css/app-style.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('backend/assets/plugins/summernote/dist/summernote-bs4.css') }}" />
+    
+    <!-- Theme CSS -->
+    <link href="{{ asset('css/theme.css') }}" rel="stylesheet" type="text/css" />
+    
     <!-- latest jquery-->
     <script src="/plugins/js/sweet_alert.js" defer></script>
     <script src="/backend/assets/js/jquery.min.js"></script>
@@ -39,9 +43,12 @@
     <script src="backend/assets/plugins/lightbox/js/lightbox.min.js"></script> --}}
 
     @vite(['resources/js/backend/Views/app.js'])
+    
+    <!-- Theme Manager Script -->
+    <script src="{{ asset('js/themeManager.js') }}"></script>
 </head>
 
-<body class="bg-theme bg-theme1" id="body">
+<body class="bg-theme bg-theme1 light-theme" id="body">
     <div id="app">
         <app></app>
     </div>

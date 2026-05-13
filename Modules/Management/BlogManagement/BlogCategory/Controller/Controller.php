@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Modules\Management\BlogManagement\BlogCategory\Controller;
-use App\Modules\Management\BlogManagement\BlogCategory\Actions\GetAllData;
-use App\Modules\Management\BlogManagement\BlogCategory\Actions\DestroyData;
-use App\Modules\Management\BlogManagement\BlogCategory\Actions\GetSingleData;
-use App\Modules\Management\BlogManagement\BlogCategory\Actions\StoreData;
-use App\Modules\Management\BlogManagement\BlogCategory\Actions\UpdateData;
-use App\Modules\Management\BlogManagement\BlogCategory\Actions\UpdateStatus;
-use App\Modules\Management\BlogManagement\BlogCategory\Actions\SoftDelete;
-use App\Modules\Management\BlogManagement\BlogCategory\Actions\RestoreData;
-use App\Modules\Management\BlogManagement\BlogCategory\Actions\ImportData;
-use App\Modules\Management\BlogManagement\BlogCategory\Validations\BulkActionsValidation;
-use App\Modules\Management\BlogManagement\BlogCategory\Validations\DataStoreValidation;
-use App\Modules\Management\BlogManagement\BlogCategory\Actions\BulkActions;
+namespace Modules\Management\BlogManagement\BlogCategory\Controller;
+use Modules\Management\BlogManagement\BlogCategory\Actions\GetAllData;
+use Modules\Management\BlogManagement\BlogCategory\Actions\DestroyData;
+use Modules\Management\BlogManagement\BlogCategory\Actions\GetSingleData;
+use Modules\Management\BlogManagement\BlogCategory\Actions\StoreData;
+use Modules\Management\BlogManagement\BlogCategory\Actions\UpdateData;
+use Modules\Management\BlogManagement\BlogCategory\Actions\UpdateStatus;
+use Modules\Management\BlogManagement\BlogCategory\Actions\SoftDelete;
+use Modules\Management\BlogManagement\BlogCategory\Actions\RestoreData;
+use Modules\Management\BlogManagement\BlogCategory\Actions\ImportData;
+use Modules\Management\BlogManagement\BlogCategory\Validations\BulkActionsValidation;
+use Modules\Management\BlogManagement\BlogCategory\Validations\DataStoreValidation;
+use Modules\Management\BlogManagement\BlogCategory\Actions\BulkActions;
 use App\Http\Controllers\Controller as ControllersController;
 
 

@@ -18,19 +18,19 @@ if (!function_exists('Controller')) {
         $content = <<<"EOD"
         <?php
 
-        namespace App\\Modules\\Management\\{$moduleName}\\Controller;
-        use App\\Modules\\Management\\{$moduleName}\\Actions\GetAllData;
-        use App\\Modules\\Management\\{$moduleName}\\Actions\DestroyData;
-        use App\\Modules\\Management\\{$moduleName}\\Actions\GetSingleData;
-        use App\\Modules\\Management\\{$moduleName}\\Actions\StoreData;
-        use App\\Modules\\Management\\{$moduleName}\\Actions\UpdateData;
-        use App\\Modules\\Management\\{$moduleName}\\Actions\UpdateStatus;
-        use App\\Modules\\Management\\{$moduleName}\\Actions\SoftDelete;
-        use App\\Modules\\Management\\{$moduleName}\\Actions\RestoreData;
-        use App\\Modules\\Management\\{$moduleName}\\Actions\ImportData;
-        use App\\Modules\\Management\\{$moduleName}\\Validations\\BulkActionsValidation;
-        use App\\Modules\\Management\\{$moduleName}\\Validations\\DataStoreValidation;
-        use App\\Modules\\Management\\{$moduleName}\\Actions\BulkActions;
+        namespace Modules\\Management\\{$moduleName}\\Controller;
+        use Modules\\Management\\{$moduleName}\\Actions\GetAllData;
+        use Modules\\Management\\{$moduleName}\\Actions\DestroyData;
+        use Modules\\Management\\{$moduleName}\\Actions\GetSingleData;
+        use Modules\\Management\\{$moduleName}\\Actions\StoreData;
+        use Modules\\Management\\{$moduleName}\\Actions\UpdateData;
+        use Modules\\Management\\{$moduleName}\\Actions\UpdateStatus;
+        use Modules\\Management\\{$moduleName}\\Actions\SoftDelete;
+        use Modules\\Management\\{$moduleName}\\Actions\RestoreData;
+        use Modules\\Management\\{$moduleName}\\Actions\ImportData;
+        use Modules\\Management\\{$moduleName}\\Validations\\BulkActionsValidation;
+        use Modules\\Management\\{$moduleName}\\Validations\\DataStoreValidation;
+        use Modules\\Management\\{$moduleName}\\Actions\BulkActions;
         use App\Http\Controllers\Controller as ControllersController;
 
 

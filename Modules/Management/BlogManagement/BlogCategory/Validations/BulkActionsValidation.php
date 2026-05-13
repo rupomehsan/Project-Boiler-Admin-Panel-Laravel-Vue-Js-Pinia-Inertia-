@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Management\BlogManagement\BlogCategory\Validations;
+namespace Modules\Management\BlogManagement\BlogCategory\Validations;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;

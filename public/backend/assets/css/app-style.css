@@ -79,7 +79,7 @@ body {
 }
 
 ::selection {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(172, 172, 172, 0.486);
 }
 
 select option {
@@ -444,7 +444,7 @@ small {
     text-overflow: ellipsis;
     overflow: hidden;
     letter-spacing: .5px;
-    border: 1px solid rgb(255 255 255 / 11%);
+    border: 1px solid rgba(255, 255, 255, 0.226);
     transition: all .3s ease-out;
 }
 
@@ -764,7 +764,7 @@ small {
 }
 
 body.bg-theme1 {
-    background-image: url(../images/bg-themes/1.png);
+    background-image: url(../images/bg-themes/image.png);
 }
 
 body.bg-theme2 {
@@ -828,7 +828,7 @@ body.bg-theme15 {
     padding: 0px 25px;
     z-index: 999;
     height: 60px;
-    background-color: rgba(0, 0, 0, .2);
+    background-color: rgb(12 18 34);#sidebar-wrapper .metismenu a
     -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -837,18 +837,19 @@ body.bg-theme15 {
     margin-left: 250px;
     font-size: 18px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-primary);
     cursor: pointer;
     width: 30px;
     height: 30px;
     line-height: 32px;
     border-radius: 0;
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--bg-hover);
     text-align: center;
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
     transition: all 0.2s ease;
+    border: 1px solid var(--border-color);
 }
 
 .right-nav-link a.nav-link {
@@ -1668,41 +1669,48 @@ body.bg-theme15 {
 }
 
 .btn-light {
-    color: #fff;
-    background-color: rgba(255, 255, 255, .125);
-    border-color: rgba(255, 255, 255, .125);
+    color: var(--text-primary);
+    background-color: var(--bg-hover);
+    border-color: var(--border-color);
+    transition: all 0.3s ease;
 }
 
 .btn-light:hover {
-    color: #fff;
-    background-color: rgba(255, 255, 255, 0.18);
-    border-color: rgba(255, 255, 255, 0.18);
+    color: var(--text-primary);
+    background-color: var(--bg-disabled);
+    border-color: var(--text-secondary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
 }
 
 .btn-light.focus,
 .btn-light:focus {
-    box-shadow: none;
+    color: var(--text-primary);
+    background-color: var(--bg-disabled);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
 }
 
 .btn-light.disabled,
 .btn-light:disabled {
-    color: #fff;
-    background-color: rgba(255, 255, 255, .125);
-    border-color: rgba(255, 255, 255, .125);
+    color: var(--text-light);
+    background-color: var(--bg-hover);
+    border-color: var(--border-color);
+    opacity: 0.6;
 }
 
 .btn-light:not(:disabled):not(.disabled).active,
 .btn-light:not(:disabled):not(.disabled):active,
 .show>.btn-light.dropdown-toggle {
-    color: #fff;
-    background-color: rgba(255, 255, 255, .125);
-    border-color: rgba(255, 255, 255, .125);
+    color: #ffffff;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .btn-light:not(:disabled):not(.disabled).active:focus,
 .btn-light:not(:disabled):not(.disabled):active:focus,
 .show>.btn-light.dropdown-toggle:focus {
-    box-shadow: none;
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.5);
 }
 
 .btn-white {
@@ -3269,8 +3277,10 @@ table.grid td {
     padding-bottom: .75rem;
     letter-spacing: 1px;
     text-transform: uppercase;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    background: #0000005e;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--table-header-bg);
+    color: var(--text-primary);
+    font-weight: 600;
 }
 
 .table-bordered {
@@ -3291,12 +3301,13 @@ table.grid td {
 
 .table-bordered td,
 .table-bordered th {
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid var(--border-color);
 }
 
 .table-hover tbody tr:hover {
-    background-color: rgba(0, 0, 0, .20);
-    color: #fff;
+    background-color: var(--table-row-hover);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
 }
 
 .table th {

@@ -112,11 +112,11 @@ if (!function_exists('Documentation')) {
 
                <?php
 
-            namespace App\Modules\Management\PropertyManagement\Property\Actions;
+            namespace Modules\Management\PropertyManagement\Property\Actions;
 
             class DeletePropertyImage
             {
-                static \$model = \App\Modules\Management\PropertyManagement\Property\Models\Model::class;
+                static \$model = \Modules\Management\PropertyManagement\Property\Models\Model::class;
 
                 public static function execute(\$slug)
                 {

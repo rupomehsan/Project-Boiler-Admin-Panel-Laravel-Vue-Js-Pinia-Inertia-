@@ -17,7 +17,7 @@ if (!function_exists('ImportJob')) {
         $content = <<<"EOD"
         <?php
 
-        namespace App\\Modules\\Management\\{$moduleName}\\Others;
+        namespace Modules\\Management\\{$moduleName}\\Others;
 
         use Illuminate\Bus\Batchable;
         use Illuminate\Bus\Queueable;
@@ -49,7 +49,7 @@ if (!function_exists('ImportJob')) {
             public function handle(): void
             {
 
-                \$model = \App\\Modules\\Management\\{$moduleName}\\Models\\Model::class;
+                \$model = \Modules\\Management\\{$moduleName}\\Models\\Model::class;
                 foreach (\$this->data as \$item) {
                     \$StoreData = array_combine(\$this->header, \$item);
                     \$model::create(\$StoreData);

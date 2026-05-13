@@ -5,8 +5,8 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Modules\Management\VocabularyManagement\Vocabulary\Models\Model as Vocabulary;
-use App\Modules\Management\VocabularyManagement\Vocabulary\Models\UserRevisionVocabulary;
+use Modules\Management\VocabularyManagement\Vocabulary\Models\Model as Vocabulary;
+use Modules\Management\VocabularyManagement\Vocabulary\Models\UserRevisionVocabulary;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 

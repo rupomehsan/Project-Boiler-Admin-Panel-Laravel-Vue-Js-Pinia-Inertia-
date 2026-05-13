@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Modules\Management\SettingManagement\WebsiteSettings\Controller;
-use App\Modules\Management\SettingManagement\WebsiteSettings\Actions\GetAllData;
-use App\Modules\Management\SettingManagement\WebsiteSettings\Actions\DestroyData;
-use App\Modules\Management\SettingManagement\WebsiteSettings\Actions\GetSingleData;
-use App\Modules\Management\SettingManagement\WebsiteSettings\Actions\StoreData;
-use App\Modules\Management\SettingManagement\WebsiteSettings\Actions\UpdateData;
-use App\Modules\Management\SettingManagement\WebsiteSettings\Actions\SoftDelete;
-use App\Modules\Management\SettingManagement\WebsiteSettings\Actions\RestoreData;
-use App\Modules\Management\SettingManagement\WebsiteSettings\Actions\ImportData;
-use App\Modules\Management\SettingManagement\WebsiteSettings\Validations\BulkActionsValidation;
-use App\Modules\Management\SettingManagement\WebsiteSettings\Validations\DataStoreValidation;
-use App\Modules\Management\SettingManagement\WebsiteSettings\Actions\BulkActions;
+namespace Modules\Management\SettingManagement\WebsiteSettings\Controller;
+use Modules\Management\SettingManagement\WebsiteSettings\Actions\GetAllData;
+use Modules\Management\SettingManagement\WebsiteSettings\Actions\DestroyData;
+use Modules\Management\SettingManagement\WebsiteSettings\Actions\GetSingleData;
+use Modules\Management\SettingManagement\WebsiteSettings\Actions\StoreData;
+use Modules\Management\SettingManagement\WebsiteSettings\Actions\UpdateData;
+use Modules\Management\SettingManagement\WebsiteSettings\Actions\SoftDelete;
+use Modules\Management\SettingManagement\WebsiteSettings\Actions\RestoreData;
+use Modules\Management\SettingManagement\WebsiteSettings\Actions\ImportData;
+use Modules\Management\SettingManagement\WebsiteSettings\Validations\BulkActionsValidation;
+use Modules\Management\SettingManagement\WebsiteSettings\Validations\DataStoreValidation;
+use Modules\Management\SettingManagement\WebsiteSettings\Actions\BulkActions;
 use App\Http\Controllers\Controller as ControllersController;
 
 

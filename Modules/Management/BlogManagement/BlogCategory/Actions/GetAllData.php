@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\Management\BlogManagement\BlogCategory\Actions;
+namespace Modules\Management\BlogManagement\BlogCategory\Actions;
 
 class GetAllData
 {
-    static $model = \App\Modules\Management\BlogManagement\BlogCategory\Models\Model::class;
+    static $model = \Modules\Management\BlogManagement\BlogCategory\Database\Models\Model::class;
 
     public static function execute()
     {
@@ -29,7 +29,9 @@ class GetAllData
                 $data = $data->where(function ($q) use ($searchKey) {
     $q->where('title', 'like', '%' . $searchKey . '%');    
 
-    $q->orWhere('description', 'like', '%' . $searchKey . '%');              
+    $q->orWhere('description', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('icon', 'like', '%' . $searchKey . '%');              
 
                 });
             }
@@ -42,8 +44,8 @@ class GetAllData
                 }
             }
 
-            if ($status == 'trased') {
-                $data = $data->trased();
+            if ($status == 'trashed') {
+                $data = $data->onlyTrashed();
             }
 
             if (request()->has('get_all') && (int)request()->input('get_all') === 1) {
@@ -56,7 +58,7 @@ class GetAllData
                     ->orderBy($orderByColumn, $orderByType)
                     ->get();
                      return entityResponse($data);
-            } else if ($status == 'trased') {
+            } else if ($status == 'trashed') {
                 $data = $data
                     ->with($with)
                     ->select($fields)
@@ -77,7 +79,7 @@ class GetAllData
                 ...$data->toArray(),
                 "active_data_count" => self::$model::active()->count(),
                 "inactive_data_count" => self::$model::inactive()->count(),
-                "trased_data_count" => self::$model::trased()->count(),
+                "trashed_data_count" => self::$model::onlyTrashed()->count(),
             ]);
 
         } catch (\Exception $e) {

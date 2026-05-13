@@ -20,13 +20,13 @@ if (!function_exists('ImportData')) {
         $content = <<<"EOD"
             <?php
 
-            namespace App\\Modules\\Management\\{$moduleName}\\Actions;
-            use App\\Modules\\Management\\{$moduleName}\\Others\\ImportJob;
+            namespace Modules\\Management\\{$moduleName}\\Actions;
+            use Modules\\Management\\{$moduleName}\\Others\\ImportJob;
             use Illuminate\Support\Facades\Bus;
             use Maatwebsite\Excel\Facades\Excel;
             class ImportData
             {
-                static \$model = \App\\Modules\\Management\\{$moduleName}\\Models\\Model::class;
+                static \$model = \Modules\\Management\\{$moduleName}\\Database\\Models\\Model::class;
 
                 public static function execute()
                 {

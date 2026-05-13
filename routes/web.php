@@ -1,11 +1,13 @@
 <?php
-
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | frontend Routes
 |--------------------------------------------------------------------------
 |
 */
+
+
 
 require_once __DIR__ . '/../Modules/Routes/Frontend/WebRoutes.php';
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Modules\Management\UserManagement\Role\Actions;
-use App\Modules\Management\UserManagement\Role\Others\ImportJob;
+namespace Modules\Management\UserManagement\Role\Actions;
+use Modules\Management\UserManagement\Role\Others\ImportJob;
 use Illuminate\Support\Facades\Bus;
 use Maatwebsite\Excel\Facades\Excel;
 class ImportData
 {
-    static $model = \App\Modules\Management\UserManagement\Role\Models\Model::class;
+    static $model = \Modules\Management\UserManagement\Role\Database\Models\Model::class;
 
     public static function execute()
     {

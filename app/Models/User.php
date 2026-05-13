@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
-use App\Modules\UserRole\Model as UserRole;
+use Modules\UserRole\Model as UserRole;
 
 class User extends Authenticatable
 {
