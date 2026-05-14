@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="">
+    <div v-if="canDelete" class="">
         <a href="" @click.prevent="change_status(`trased`)"
             class="btn action_btn btn-sm btn-danger d-flex align-items-center mx-1">
             <i class="fa fa-trash mr-2"></i> Trased
@@ -9,22 +9,26 @@
 </template>
 <script>
 import { inject, computed } from 'vue';
+import { auth_store } from "@/GlobalStore/auth_store";
 
 export default {
     setup() {
-        // Inject the dataStoreConstructor from parent
         const dataStoreConstructor = inject('dataStoreConstructor');
+        const moduleSetup = inject('moduleSetup');
         const store = dataStoreConstructor();
-        
+        const authStore = auth_store();
+
+        const canDelete = computed(() => {
+            const slug = moduleSetup?.permission_slugs?.delete;
+            if (!slug) return true;
+            return authStore.has_permission(slug);
+        });
+
         return {
+            canDelete,
             trashed_data_count: computed(() => store.trashed_data_count),
             change_status(status = 'active') {
-                if (status == 'trashed') {
-                    store.set_only_latest_data(true);
-                } else {
-                    store.set_only_latest_data(false);
-                }
-                store.set_only_latest_data(true);
+                store.set_only_latest_data(status === 'trashed');
                 store.set_status(status);
                 store.set_page(1);
                 store.get_all();
@@ -34,6 +38,4 @@ export default {
     }
 }
 </script>
-<style lang="">
-
-</style>
+<style lang=""></style>

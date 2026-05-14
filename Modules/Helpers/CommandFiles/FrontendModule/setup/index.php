@@ -29,6 +29,7 @@ if (!function_exists('SetupIndex')) {
         $moduleName = Str::kebab($moduleName);
         $apiName = Str::plural(Str::kebab($moduleName));
         $store = Str::snake($moduleName);
+        $slug = $moduleName; // e.g. "blog", "test"
 
         // Extract field names (excluding braces for relationships)
         $form_fields = [];
@@ -72,6 +73,14 @@ const setup: setup_type = {
 
     // Permission Configuration
     permission: ["admin", "super_admin"],
+    permission_slugs: {
+        view: "{$slug}-view",
+        details: "{$slug}-details",
+        create: "{$slug}-create",
+        edit: "{$slug}-edit",
+        delete: "{$slug}-delete",
+        import: "{$slug}-import",
+    },
 
     // API Configuration
     api_host: app_config.api_host,

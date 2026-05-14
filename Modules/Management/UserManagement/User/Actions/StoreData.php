@@ -3,12 +3,11 @@
 namespace Modules\Management\UserManagement\User\Actions;
 
 use Illuminate\Support\Facades\DB;
-use App\Events\UserActivityEvent;
-use App\Traits\LogsUserActivity;
+
 
 class StoreData
 {
-    use LogsUserActivity;
+
 
     static $model = \Modules\Management\UserManagement\User\Database\Models\Model::class;
     static $UserAddressModel = \Modules\Management\UserManagement\User\Database\Models\UserAddressModel::class;
@@ -51,8 +50,6 @@ class StoreData
             // Create user
             $data = self::$model::query()->create([
                 'role_id' => $requestData['role_id'],
-                'user_name'    => $requestData['user_name'],
-                'name'   => $requestData['name'],
                 'name'    => $requestData['name'],
                 'image'        => $requestData['image'] ?? 'avatar.png',
                 'email'        => $requestData['email'],
@@ -86,7 +83,6 @@ class StoreData
 
             // Method 1: Using Trait (Static)
             // self::logCrudStatic('create', 'User', $data->id, [
-            //     'user_name' => $data->user_name,
             //     'email' => $data->email
             // ], $request);
 
@@ -97,13 +93,11 @@ class StoreData
             //         'title' => 'User Creation Successful',
             //         'status' => 'success',
             //         'status_code' => 201,
-            //         'message' => "User '{$data->user_name}' created successfully with all related data",
             //         'action_type' => 'user_creation_complete',
             //     ],
             //     $request,
             //     [
             //         'created_user_id' => $data->id,
-            //         'user_name' => $data->user_name,
             //         'has_social_links' => !empty($socialMediaData),
             //         'social_links_count' => count($socialMediaData)
             //     ]

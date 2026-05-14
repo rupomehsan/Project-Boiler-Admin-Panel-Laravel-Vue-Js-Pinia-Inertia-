@@ -21,6 +21,7 @@ import Pagination from "../GlobalComponents/Pagination.vue";
 // project rotes
 // project rotes
 import Routes from "./Routes/routes.js";
+import { auth_store } from "../GlobalStore/auth_store";
 // roters
 // roters
 const router = createRouter({
@@ -35,8 +36,20 @@ const router = createRouter({
 });
 // previous route store
 // previous route store
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   to.href.length > 2 && window.sessionStorage.setItem("prevurl", to.href);
+
+  const requiredPermission = to.meta?.permission;
+  if (requiredPermission) {
+    const authStore = auth_store();
+    if (!authStore.is_auth) {
+      await authStore.check_is_auth();
+    }
+    if (!authStore.has_permission(requiredPermission)) {
+      return next(false);
+    }
+  }
+
   next();
 });
 

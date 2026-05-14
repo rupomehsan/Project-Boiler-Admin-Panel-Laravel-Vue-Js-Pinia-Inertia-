@@ -21,7 +21,7 @@ class CheckUser
                         'role_id',
                     ])->with([
                         'role' => function ($query) {
-                            $query->select('id', 'name', 'serial_no');
+                            $query->select('id', 'name', 'serial_no')->with('permissions:id,route,slug,name');
                         },
                         'address' => function ($query) {
                             $query->selectRaw("id, user_id, state, phone_number, city, post, country, address, slug, JSON_UNQUOTE(JSON_EXTRACT(phone_number, '$[0]')) as number")

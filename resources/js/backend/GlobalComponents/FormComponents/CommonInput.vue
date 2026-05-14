@@ -1,11 +1,24 @@
 <template>
-  <div :class="class" v-if="is_visible">
+  <div :class="class_name" v-if="is_visible">
     <div class="form-group">
       <label :for="name">{{ label || name }}</label>
 
       <!-- ── Standard text-like inputs ──────────────────────────────── -->
       <div
-        v-if="['text','number','password','email','date','time','datetime-local','url','tel','color'].includes(type)"
+        v-if="
+          [
+            'text',
+            'number',
+            'password',
+            'email',
+            'date',
+            'time',
+            'datetime-local',
+            'url',
+            'tel',
+            'color',
+          ].includes(type)
+        "
         class="mt-1 mb-3"
       >
         <input
@@ -74,39 +87,38 @@
           <span class="ci-range-val">{{ value || min || 0 }}</span>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-import TextEditor      from "./TextEditor.vue";
-import ImageComponent  from "./ImageComponent.vue";
-import SelectInput     from "./SelectInput.vue";
-import MultiChipInput  from "./MultiChipInput.vue";
+import TextEditor from "./TextEditor.vue";
+import ImageComponent from "./ImageComponent.vue";
+import SelectInput from "./SelectInput.vue";
+import MultiChipInput from "./MultiChipInput.vue";
 
 export default {
   components: { TextEditor, ImageComponent, SelectInput, MultiChipInput },
 
   props: {
-    is_visible:     { type: [Boolean, String],        default: true        },
-    name:           { type: String,                   required: true       },
-    label:          { type: String,                   required: true       },
-    type:           { type: [String, Array, Object],  required: true       },
-    placeholder:    { type: String,                   default: null        },
-    multiple:       { type: [Boolean, String],        default: false       },
-    value:          { type: [String, Number, Array],  default: null        },
-    data_list:      { type: Array,                    default: null        },
-    images_list:    { type: Array,                    default: null        },
-    item:           { type: Object,                   default: null        },
-    class:          { type: String,                   default: 'col-md-6'  },
-    onchange:       { type: Function,                 default: null        },
-    onchangeAction: { type: String,                   default: null        },
-    api_url:        { type: String,                   default: null        },
-    accept:         { type: String,                   default: null        },
-    min:            { type: [String, Number],         default: null        },
-    max:            { type: [String, Number],         default: null        },
-    step:           { type: [String, Number],         default: null        },
+    is_visible: { type: [Boolean, String], default: true },
+    name: { type: String, required: true },
+    label: { type: String, required: true },
+    type: { type: [String, Array, Object], required: true },
+    placeholder: { type: String, default: null },
+    multiple: { type: [Boolean, String], default: false },
+    value: { type: [String, Number, Array], default: null },
+    data_list: { type: Array, default: null },
+    images_list: { type: Array, default: null },
+    item: { type: Object, default: null },
+    class_name: { type: String, default: "col-md-6" },
+    onchange: { type: Function, default: null },
+    onchangeAction: { type: String, default: null },
+    api_url: { type: String, default: null },
+    accept: { type: String, default: null },
+    min: { type: [String, Number], default: null },
+    max: { type: [String, Number], default: null },
+    step: { type: [String, Number], default: null },
   },
 
   methods: {
@@ -114,25 +126,28 @@ export default {
     errorReset(event) {
       const el = event.target;
       const next = el.nextElementSibling;
-      if (next) { el.classList.remove('border-warning'); next.remove(); }
+      if (next) {
+        el.classList.remove("border-warning");
+        next.remove();
+      }
       this.fireOnchange(event);
     },
 
     // SelectInput emits the selected value(s)
     onSelectChange(value) {
-      const ctrl = this.$el.querySelector('.ss-control');
+      const ctrl = this.$el.querySelector(".ss-control");
       if (ctrl) {
-        ctrl.classList.remove('border-warning');
+        ctrl.classList.remove("border-warning");
         const next = ctrl.nextElementSibling;
-        if (next && !next.classList.contains('ss-dropdown')) next.remove();
+        if (next && !next.classList.contains("ss-dropdown")) next.remove();
       }
       this.fireOnchange({ target: { name: this.name, value } });
     },
 
     // MultiChipInput emits the comma-separated string
     onChipChange(value) {
-      const box = this.$el.querySelector('.mc-box');
-      if (box) box.classList.remove('border-warning');
+      const box = this.$el.querySelector(".mc-box");
+      if (box) box.classList.remove("border-warning");
       this.fireOnchange({ target: { name: this.name, value } });
     },
 
@@ -147,7 +162,11 @@ export default {
   computed: {
     resolvedItem() {
       if (this.item) return this.item;
-      try { if (this.$parent?.item) return this.$parent.item; } catch { /**/ }
+      try {
+        if (this.$parent?.item) return this.$parent.item;
+      } catch {
+        /**/
+      }
       return null;
     },
   },
@@ -158,7 +177,7 @@ export default {
 .ci-range-val {
   min-width: 32px;
   text-align: right;
-  font-size: .8rem;
+  font-size: 0.8rem;
   color: var(--text-light);
 }
 </style>

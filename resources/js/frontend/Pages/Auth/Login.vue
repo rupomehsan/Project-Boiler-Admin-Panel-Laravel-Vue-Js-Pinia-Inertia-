@@ -1,5 +1,5 @@
 <template>
-  <title>Login | </title>
+  <title>Login |</title>
   <div class="login-root">
     <!-- Video Background -->
     <video class="bg-video" autoplay muted loop playsinline>
@@ -7,7 +7,7 @@
     </video>
     <div class="bg-overlay"></div>
 
-    <!-- Binary Rain Canvas -->
+    <!-- Binary Effect Canvas -->
     <canvas ref="rainCanvas" class="binary-canvas" aria-hidden="true"></canvas>
 
     <!-- Login Panel -->
@@ -177,16 +177,7 @@ export default {
       try {
         await this.check_is_auth();
         if (this.is_auth) {
-          const prevUrl = window.sessionStorage.getItem("prevurl");
-          const userRole = parseInt(role);
-          if (userRole === 1 || role === "1") {
-            const redirectUrl =
-              prevUrl && prevUrl.startsWith("/admin")
-                ? "/admin" + prevUrl
-                : "/admin#/dashboard";
-            window.location.href = redirectUrl;
-            return;
-          }
+          window.location.href = "/admin#/dashboard";
         } else {
           this.clearAuthData();
         }
@@ -220,10 +211,10 @@ export default {
       const canvas = this.$refs.rainCanvas;
       if (!canvas) return;
       const ctx = canvas.getContext("2d");
-      const fontSize = 15;
-      // Only advance drops every STEP frames — lower = slower
-      const STEP = 12;
+      const fontSize = 18;
       let frame = 0;
+      let mouseX = canvas.width / 2;
+      let mouseY = canvas.height / 2;
 
       const resize = () => {
         canvas.width = window.innerWidth;
@@ -232,52 +223,60 @@ export default {
       resize();
       window.addEventListener("resize", resize);
 
-      let cols = Math.floor(canvas.width / fontSize);
-      // Stagger starting positions so columns don't all begin at once
-      let drops = Array.from({ length: cols }, (_, i) =>
-        Math.floor(Math.random() * -(canvas.height / fontSize))
+      // Track mouse movement for hover effect
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      // Generate static binary grid pattern
+      let rows = Math.ceil(canvas.height / fontSize);
+      let cols = Math.ceil(canvas.width / fontSize);
+      let binaryGrid = Array.from({ length: rows }, () =>
+        Array.from({ length: cols }, () => (Math.random() > 0.5 ? "1" : "0")),
       );
 
       const draw = () => {
         frame++;
 
-        // Every frame: paint a very subtle fade so trails dissolve slowly
-        ctx.fillStyle = "rgba(2, 4, 8, 0.055)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Very light clear - transparent to show video
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Only move drops every STEP frames
-        if (frame % STEP === 0) {
-          cols = Math.floor(canvas.width / fontSize);
-          while (drops.length < cols) drops.push(0);
+        // Draw static binary grid with hover effect
+        ctx.font = `${fontSize}px "Courier New", monospace`;
 
-          ctx.font = `${fontSize}px "Courier New", monospace`;
+        for (let row = 0; row < rows; row++) {
+          for (let col = 0; col < cols; col++) {
+            const bit = binaryGrid[row][col];
+            const x = col * fontSize;
+            const y = row * fontSize + fontSize;
 
-          for (let i = 0; i < cols; i++) {
-            const bit = Math.random() > 0.5 ? "1" : "0";
-            const y = drops[i] * fontSize;
+            // Calculate distance from mouse to this character
+            const dx = x - mouseX;
+            const dy = y - mouseY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const glowRadius = 150; // Radius of hover effect
 
-            // Bright white leading character
-            ctx.fillStyle = "#e0fff8";
-            ctx.font = `bold ${fontSize}px "Courier New", monospace`;
-            ctx.fillText(bit, i * fontSize, y);
+            // Base opacity with subtle pulsing
+            let opacity =
+              0.12 + 0.06 * Math.sin((row + col + frame * 0.02) * 0.1);
 
-            // Cyan glow one step behind
-            ctx.fillStyle = "rgba(0, 255, 210, 0.75)";
-            ctx.font = `${fontSize}px "Courier New", monospace`;
-            ctx.fillText(bit, i * fontSize, y - fontSize);
+            // Add glow based on mouse proximity
+            if (distance < glowRadius) {
+              const glowIntensity = 1 - distance / glowRadius;
+              opacity = 0.12 + 0.5 * glowIntensity; // Up to 62% opacity near mouse
+            }
 
-            // Mid trail
-            ctx.fillStyle = "rgba(0, 210, 170, 0.35)";
-            ctx.fillText(bit, i * fontSize, y - fontSize * 2);
-
-            // Dim deep tail
-            ctx.fillStyle = "rgba(0, 160, 130, 0.15)";
-            ctx.fillText(bit, i * fontSize, y - fontSize * 4);
-
-            // Reset column after it exits, with a random pause chance
-            if (y > canvas.height && Math.random() > 0.97) drops[i] = 0;
-            drops[i]++;
+            ctx.fillStyle = `rgba(0, 255, 210, ${opacity})`;
+            ctx.fillText(bit, x, y);
           }
+        }
+
+        // Occasionally refresh some bits for subtle animation
+        if (frame % 120 === 0) {
+          const randRow = Math.floor(Math.random() * rows);
+          const randCol = Math.floor(Math.random() * cols);
+          binaryGrid[randRow][randCol] = Math.random() > 0.5 ? "1" : "0";
         }
 
         this._rainId = requestAnimationFrame(draw);
@@ -311,11 +310,8 @@ export default {
             window.sessionStorage.removeItem("prevurl");
             window.s_alert("Login Successfully");
             let redirectUrl = "";
-            if (data.user.role_id === 1) {
-              redirectUrl =
-                prevUrl && prevUrl.startsWith("/admin")
-                  ? prevUrl
-                  : "/admin#/dashboard";
+            if (data.user.role_id) {
+              redirectUrl = "/admin#/dashboard";
             }
             if (redirectUrl) {
               setTimeout(() => {
@@ -325,13 +321,13 @@ export default {
           } else {
             window.s_alert(
               "Login failed. Invalid response from server.",
-              "error"
+              "error",
             );
           }
         } else {
           window.s_alert(
             response.data?.message || "Login failed. Please try again.",
-            "error"
+            "error",
           );
         }
       } catch (error) {
@@ -340,12 +336,12 @@ export default {
         } else if (error.response?.status === 401) {
           window.s_alert(
             "Invalid credentials. Please check your email and password.",
-            "error"
+            "error",
           );
         } else {
           window.s_alert(
             "Login failed. Please check your connection and try again.",
-            "error"
+            "error",
           );
         }
       } finally {
@@ -360,7 +356,7 @@ export default {
           email: this.email,
           password: this.password,
           rememberMe: this.rememberMe,
-        })
+        }),
       );
     },
 
@@ -415,7 +411,7 @@ export default {
   background: #020408;
 }
 
-/* Video BG — more visible now */
+/* Video BG — highly visible */
 .bg-video {
   position: fixed;
   inset: 0;
@@ -423,18 +419,18 @@ export default {
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  opacity: 0.75;
+  opacity: 1;
 }
 
-/* Lighter overlay so video shows through */
+/* Very light overlay to show video clearly */
 .bg-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(2, 4, 8, 0.32);
+  background: rgba(2, 4, 8, 0.08);
   z-index: 1;
 }
 
-/* Binary Rain Canvas — full page */
+/* Binary Canvas */
 .binary-canvas {
   position: fixed;
   inset: 0;
@@ -453,8 +449,10 @@ export default {
   background: rgba(4, 10, 18, 0.9);
   border: 1px solid rgba(0, 255, 200, 0.3);
   border-radius: 6px;
-  box-shadow: 0 0 0 1px rgba(0, 255, 200, 0.08),
-    0 0 50px rgba(0, 255, 200, 0.12), 0 30px 60px rgba(0, 0, 0, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 200, 0.08),
+    0 0 50px rgba(0, 255, 200, 0.12),
+    0 30px 60px rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(14px);
   overflow: hidden;
   animation: panelIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -575,7 +573,8 @@ export default {
   background: rgba(0, 255, 200, 0.1);
   color: #00ffe0;
   margin-bottom: 14px;
-  box-shadow: 0 0 28px rgba(0, 255, 200, 0.4),
+  box-shadow:
+    0 0 28px rgba(0, 255, 200, 0.4),
     inset 0 0 14px rgba(0, 255, 200, 0.1);
 }
 
@@ -584,7 +583,8 @@ export default {
   font-weight: 700;
   letter-spacing: 0.18em;
   color: #ffffff;
-  text-shadow: 0 0 12px rgba(0, 255, 200, 0.9),
+  text-shadow:
+    0 0 12px rgba(0, 255, 200, 0.9),
     0 0 30px rgba(0, 255, 200, 0.5);
   margin-bottom: 8px;
 }
@@ -659,13 +659,16 @@ export default {
   background: rgba(0, 255, 200, 0.04);
   border: 1px solid rgba(0, 255, 200, 0.2);
   border-radius: 4px;
-  transition: border-color 0.25s, box-shadow 0.25s;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
   overflow: hidden;
 }
 
 .input-wrap:focus-within {
   border-color: rgba(0, 255, 200, 0.6);
-  box-shadow: 0 0 0 3px rgba(0, 255, 200, 0.08),
+  box-shadow:
+    0 0 0 3px rgba(0, 255, 200, 0.08),
     0 0 14px rgba(0, 255, 200, 0.12);
 }
 
@@ -735,7 +738,9 @@ export default {
   background: transparent;
   display: inline-block;
   position: relative;
-  transition: background 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
   flex-shrink: 0;
 }
 
@@ -766,7 +771,9 @@ export default {
   color: #a78bfa;
   text-decoration: none;
   letter-spacing: 0.04em;
-  transition: color 0.2s, text-shadow 0.2s;
+  transition:
+    color 0.2s,
+    text-shadow 0.2s;
 }
 .forgot-link:hover {
   color: #c4b5fd;
@@ -815,7 +822,8 @@ export default {
 .transmit-btn:hover {
   background: rgba(0, 255, 200, 0.08);
   border-color: #00ffe0;
-  box-shadow: 0 0 24px rgba(0, 255, 200, 0.25),
+  box-shadow:
+    0 0 24px rgba(0, 255, 200, 0.25),
     inset 0 0 20px rgba(0, 255, 200, 0.05);
   text-shadow: 0 0 8px rgba(0, 255, 200, 0.7);
 }
@@ -868,7 +876,9 @@ export default {
   color: #a78bfa;
   text-decoration: none;
   letter-spacing: 0.04em;
-  transition: color 0.2s, text-shadow 0.2s;
+  transition:
+    color 0.2s,
+    text-shadow 0.2s;
 }
 .register-link:hover {
   color: #c4b5fd;

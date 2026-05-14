@@ -43,17 +43,15 @@ class DataStoreValidation extends FormRequest
     {
         return [
             'role_id' => 'required | sometimes',
-            'user_name' => 'required|string|max:255',
-            'name' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'image' => 'nullable | sometimes',
             'email' => 'required|email|unique:users,email', // Assuming 'user' is the route parameter for the user ID
             'password' => 'required|string|min:6',
-            'state' => 'required|string|max:255',
+            'state' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'post' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
-            'phone_number' => 'required|string|max:255',
+            'phone_number' => 'nullable|string|max:255',
             'social_media' => 'nullable|array',
             'social_media.*.media_name' => 'nullable|string|max:255',
             'social_media.*.media_link' => 'nullable|string|max:255',

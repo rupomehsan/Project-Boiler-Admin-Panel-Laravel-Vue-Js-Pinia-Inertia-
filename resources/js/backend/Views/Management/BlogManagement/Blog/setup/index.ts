@@ -22,6 +22,14 @@ const setup: setup_type = {
   store_prefix: "blog",
   route_prefix: "Blog",
   route_path: "blog",
+  permission_slugs: {
+    view: "blog-view",
+    details: "blog-details",
+    create: "blog-create",
+    edit: "blog-edit",
+    delete: "blog-delete",
+    import: "blog-import",
+  },
 
   // Permission Configuration
   permission: ["admin", "super_admin"],

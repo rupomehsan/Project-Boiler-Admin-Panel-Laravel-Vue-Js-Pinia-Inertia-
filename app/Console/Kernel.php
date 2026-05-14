@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
         \Modules\Commands\ModelingDirectory::class,
         \Modules\Commands\TableModelingCommand::class,
         \Modules\Commands\RunModuleCommands::class,
+        \Modules\Commands\DeleteModuleCommand::class,
     ];
 
     /**

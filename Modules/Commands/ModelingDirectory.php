@@ -35,6 +35,7 @@ class ModelingDirectory extends Command
             $this->runMigration();
             $this->runSeeder();
             $this->appendRouteToApiRoutes();
+            $this->appendPermissionsToSeeder();
 
             if ($this->withVue) {
                 $this->generateVueFiles();
@@ -198,6 +199,71 @@ class ModelingDirectory extends Command
             return implode('/', $parts) . '/' . $module;
         }
         return $this->moduleName;
+    }
+
+    protected function appendPermissionsToSeeder()
+    {
+        $seederPath = base_path('Modules/Management/UserManagement/Role/Database/Seeders/PermissionSeeder.php');
+
+        if (!File::exists($seederPath)) {
+            $this->warn('PermissionSeeder not found, skipping permission injection.');
+            return;
+        }
+
+        // Derive names
+        $slug        = Str::kebab($this->moduleName);                    // "test"
+        $routeName   = Str::plural(Str::kebab($this->moduleName));       // "tests"
+        $displayName = ucwords(str_replace('-', ' ', $slug));            // "Test"
+
+        // Derive category from ViewModuleName
+        $parts = explode('/', $this->ViewModuleName);
+        if (count($parts) > 1) {
+            $parentDir    = $parts[0];                                   // "TestManagement"
+            $categoryName = trim(preg_replace('/([A-Z])/', ' $1', $parentDir)); // "Test Management"
+        } else {
+            $categoryName = $displayName . ' Management';
+        }
+
+        // Build the permissions block to inject
+        $block = <<<PHP
+
+            // [MODULE:{$categoryName}:START]
+            // {$categoryName}
+            '{$categoryName}' => [
+                ['name' => 'View {$displayName}', 'slug' => '{$slug}-view', 'route' => '/admin#/{$slug}/all'],
+                ['name' => 'View {$displayName} Details', 'slug' => '{$slug}-details', 'route' => '/admin#/{$slug}/details'],
+                ['name' => 'Create {$displayName}', 'slug' => '{$slug}-create', 'route' => '/admin#/{$slug}/create'],
+                ['name' => 'Edit {$displayName}', 'slug' => '{$slug}-edit', 'route' => '/admin#/{$slug}/edit'],
+                ['name' => 'Delete {$displayName}', 'slug' => '{$slug}-delete', 'route' => '/api/v1/{$routeName}/destroy'],
+                ['name' => 'Import {$displayName}', 'slug' => '{$slug}-import', 'route' => '/api/v1/{$routeName}/import'],
+            ],
+            // [MODULE:{$categoryName}:END]
+PHP;
+
+        $content = File::get($seederPath);
+
+        // Skip if slug already seeded (idempotent)
+        if (str_contains($content, "'{$slug}-view'")) {
+            $this->info("Permissions for [{$categoryName}] already exist in PermissionSeeder, skipping.");
+            return;
+        }
+
+        // Inject before the closing ]; of $permissions array
+        // Marker: the line that closes the $permissions array before "// Insert permissions"
+        $marker = "        ];\n\n        // Insert permissions";
+        $injection = $block . "\n        ];\n\n        // Insert permissions";
+
+        if (str_contains($content, $marker)) {
+            $content = str_replace($marker, $injection, $content);
+            File::put($seederPath, $content);
+            $this->info("Permissions for [{$categoryName}] added to PermissionSeeder.");
+
+            // Re-run PermissionSeeder to seed the new permissions
+            Artisan::call('db:seed', ['--class' => '\\Modules\\Management\\UserManagement\\Role\\Database\\Seeders\\PermissionSeeder']);
+            $this->info('PermissionSeeder re-seeded successfully.');
+        } else {
+            $this->warn('Could not find injection marker in PermissionSeeder. Add permissions manually.');
+        }
     }
 
     /*

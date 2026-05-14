@@ -6,6 +6,15 @@ const prefix: string = "Role";
 const setup: setup_type = {
   prefix,
   permission: ["admin", "super_admin"],
+  permission_slugs: {
+    view: "role-view",
+    details: "role-details",
+    create: "role-create",
+    edit: "role-edit",
+    delete: "role-delete",
+    import: "role-import",
+    manage_permission: "role-permission-manage",
+  },
 
   api_host: app_config.api_host,
   api_version: app_config.api_version,

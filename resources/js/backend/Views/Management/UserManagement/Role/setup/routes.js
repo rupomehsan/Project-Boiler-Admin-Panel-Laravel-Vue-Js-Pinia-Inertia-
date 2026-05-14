@@ -15,21 +15,25 @@ const routes = {
             path: "all",
             name: "All" + route_prefix,
             component: All,
+            meta: { permission: setup.permission_slugs?.view },
         },
         {
             path: "create",
             name: "Create" + route_prefix,
             component: Form,
+            meta: { permission: setup.permission_slugs?.create },
         },
         {
             path: "details/:id",
             name: "Details" + route_prefix,
             component: Details,
+            meta: { permission: setup.permission_slugs?.details },
         },
         {
             path: "edit/:id",
             name: "Edit" + route_prefix,
             component: Form,
+            meta: { permission: setup.permission_slugs?.edit },
         },
     ],
 };

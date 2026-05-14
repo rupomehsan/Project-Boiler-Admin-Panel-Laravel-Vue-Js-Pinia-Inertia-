@@ -27,7 +27,7 @@ import active_row from '../../helpers/table_active_row';
 import Details from './action_buttons/Details.vue';
 import Edit from './action_buttons/Edit.vue';
 import StatusButton from './action_buttons/StatusButton.vue';
-import DeleteRestore    from './action_buttons/DeleteRestore.vue';
+import DeleteRestore from './action_buttons/DeleteRestore.vue';
 import Destroy from './action_buttons/Destroy.vue';
 export default {
     props: {
@@ -35,6 +35,13 @@ export default {
             type: Object,
             default: {},
         }
+    },
+    inject: ['dataStoreConstructor', 'moduleSetup'],
+    provide() {
+        return {
+            dataStoreConstructor: this.dataStoreConstructor,
+            moduleSetup: this.moduleSetup,
+        };
     },
     components: {
         DetailsBtn: Details,
@@ -48,6 +55,4 @@ export default {
     }
 }
 </script>
-<style lang="">
-
-</style>
+<style lang=""></style>

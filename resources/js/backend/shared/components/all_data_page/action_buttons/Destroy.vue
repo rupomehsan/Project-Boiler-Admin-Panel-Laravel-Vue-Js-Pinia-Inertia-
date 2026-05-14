@@ -1,14 +1,23 @@
 <template lang="">
-    <a href="/destroy" @click.prevent="destroy_data" class="border-danger">
+    <a v-if="canDelete" href="/destroy" @click.prevent="destroy_data" class="border-danger">
         <i class="fa fa-trash text-danger"></i>
         Destroy
     </a>
 </template>
 <script>
+import { auth_store } from "@/GlobalStore/auth_store";
 export default {
     props: {
         item: {
             slug: "",
+        }
+    },
+    inject: ['dataStoreConstructor', 'moduleSetup'],
+    computed: {
+        canDelete() {
+            const slug = this.moduleSetup?.permission_slugs?.delete;
+            if (!slug) return true;
+            return auth_store().has_permission(slug);
         }
     },
     methods: {
@@ -29,12 +38,6 @@ export default {
             }
         },
     },
-    inject: ['dataStoreConstructor']
 }
-
-
 </script>
-<style lang="">
-
-</style>
-
+<style lang=""></style>

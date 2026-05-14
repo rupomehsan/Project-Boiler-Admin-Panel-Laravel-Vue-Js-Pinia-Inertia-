@@ -7,20 +7,8 @@ export default [
     data_list: [],
   },
   {
-    name: "user_name",
-    label: "user name",
-    type: "text",
-    value: "",
-  },
-  {
     name: "name",
-    label: "first name",
-    type: "text",
-    value: "",
-  },
-  {
-    name: "name",
-    label: "last name",
+    label: "Full name",
     type: "text",
     value: "",
   },
