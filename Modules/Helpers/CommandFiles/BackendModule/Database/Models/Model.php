@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 
 if (!function_exists('Model')) {
-    function Model($moduleName, $module_Name, $jsonFields = [], $hasJsonUploads = false, $fieldsWithBraces = [])
+    function Model($moduleName, $module_Name, $jsonFields = [], $hasJsonUploads = false, $fieldsWithBraces = [], $jsonMultiFields = [])
     {
         $targetClass = null;
         $formated_module = explode('/', $moduleName);
@@ -24,10 +24,26 @@ if (!function_exists('Model')) {
         $modelRelations = '';
         if (count($fieldsWithBraces)) {
             foreach ($fieldsWithBraces as $field) {
-                $brace_content = $field['brace_content'];
+                $brace_content = str_replace('/', '\\', $field['brace_content']);
                 $methodName = Str::camel(Str::replace('_', ' ', $field['field']));
                 $modelRelations .= "\n    public function {$methodName}()\n    {\n        return \$this->belongsTo(\\Modules\\Management\\{$brace_content}\\Database\\Models\\Model::class, '{$field['field']}');\n    }";
             }
+        }
+
+        // Build $casts for all json type fields
+        // json       → 'json' cast  (multichip; MySQL json column, Eloquent encodes/decodes)
+        // json-a.b.c → 'array' cast (DynamicRepeater; same MySQL json column)
+        $allCastLines = [];
+        foreach ($jsonFields as $f) {
+            $allCastLines[] = "        '{$f}' => 'json',";
+        }
+        foreach ($jsonMultiFields as $f) {
+            $allCastLines[] = "        '{$f}' => 'array',";
+        }
+        $castsBlock = '';
+        if (!empty($allCastLines)) {
+            $castLines = implode("\n", $allCastLines);
+            $castsBlock = "\n    protected \$casts = [\n{$castLines}\n    ];\n";
         }
 
         $content = <<<"EOD"
@@ -46,7 +62,7 @@ class Model extends EloquentModel
 
     protected \$table = "$table_name";
     protected \$guarded = [];
-
+{$castsBlock}
     protected static function booted()
     {
         static::created(function (\$data) {

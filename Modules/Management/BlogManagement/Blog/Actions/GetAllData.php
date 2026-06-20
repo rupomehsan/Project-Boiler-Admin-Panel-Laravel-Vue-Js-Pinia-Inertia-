@@ -18,54 +18,58 @@ class GetAllData
             $start_date = request()->input('start_date');
             $end_date = request()->input('end_date');
 
-                            $with = ['blog_category:id,title'];
+                            $with = ['blogCategoryId', 'writerId'];
 
             $condition = [];
 
             $data = self::$model::query();
-
-                  if (request()->has('is_featured') && request()->input('is_featured')) {
-
-                $data = $data->where('is_featured', request()->input('is_featured'));
-               
-            }
 
             if (request()->has('search') && request()->input('search')) {
                 $searchKey = request()->input('search');
                 $data = $data->where(function ($q) use ($searchKey) {
     $q->where('blog_category_id', 'like', '%' . $searchKey . '%');    
 
+    $q->orWhere('writer_id', 'like', '%' . $searchKey . '%');    
+
     $q->orWhere('title', 'like', '%' . $searchKey . '%');    
 
-    $q->orWhere('description', 'like', '%' . $searchKey . '%');    
+    $q->orWhere('short_description', 'like', '%' . $searchKey . '%');    
 
     $q->orWhere('content', 'like', '%' . $searchKey . '%');    
 
     $q->orWhere('reading_time', 'like', '%' . $searchKey . '%');    
 
-    $q->orWhere('tags', 'like', '%' . $searchKey . '%');    
+    $q->orWhere('average_rating', 'like', '%' . $searchKey . '%');    
 
     $q->orWhere('publish_date', 'like', '%' . $searchKey . '%');    
 
-    $q->orWhere('writer', 'like', '%' . $searchKey . '%');    
+    $q->orWhere('scheduled_at', 'like', '%' . $searchKey . '%');    
 
     $q->orWhere('thumbnail_image', 'like', '%' . $searchKey . '%');    
 
-    $q->orWhere('images', 'like', '%' . $searchKey . '%');    
+    $q->orWhere('gallery', 'like', '%' . $searchKey . '%');    
 
     $q->orWhere('blog_type', 'like', '%' . $searchKey . '%');    
 
-    $q->orWhere('url', 'like', '%' . $searchKey . '%');    
+    $q->orWhere('content_format', 'like', '%' . $searchKey . '%');    
 
-    $q->orWhere('show_top', 'like', '%' . $searchKey . '%');    
+    $q->orWhere('external_url', 'like', '%' . $searchKey . '%');    
 
-    $q->orWhere('contributors', 'like', '%' . $searchKey . '%');    
+    $q->orWhere('show_on_top', 'like', '%' . $searchKey . '%');    
 
-    $q->orWhere('video_link', 'like', '%' . $searchKey . '%');    
+    $q->orWhere('allow_comments', 'like', '%' . $searchKey . '%');    
 
     $q->orWhere('is_featured', 'like', '%' . $searchKey . '%');    
 
-    $q->orWhere('is_published', 'like', '%' . $searchKey . '%');              
+    $q->orWhere('is_published', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('video_link', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('meta_title', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('meta_description', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('meta_keywords', 'like', '%' . $searchKey . '%');              
 
                 });
             }

@@ -1,0 +1,13 @@
+
+/*
+|--------------------------------------------------------------------------
+| Delete Modules (exclude: Auth, UserManagement, SettingManagement)
+|--------------------------------------------------------------------------
+*/
+
+php artisan delete:module BlogManagement/Blog --vue
+php artisan delete:module BlogManagement/BlogWriter --vue
+php artisan delete:module BlogManagement/BlogTag --vue
+php artisan delete:module BlogManagement/BlogCategory --vue
+php artisan delete:table BlogManagement/BlogBlogTag
+

@@ -57,8 +57,10 @@ export default {
   },
 
   computed: {
+    // Always serialise as a JSON array so the MySQL json column and Laravel's
+    // 'json' cast both receive valid JSON on form submission.
     serialised() {
-      return this.chips.join(this.separator);
+      return JSON.stringify(this.chips);
     },
   },
 
@@ -67,8 +69,21 @@ export default {
       immediate: true,
       handler(val) {
         if (!val) { this.chips = []; return; }
-        const raw = Array.isArray(val) ? val : String(val).split(',');
-        this.chips = raw.map(v => v.trim()).filter(Boolean);
+        // 1. Already a JS array (from Laravel 'json' cast via API)
+        if (Array.isArray(val)) {
+          this.chips = val.map(v => String(v).trim()).filter(Boolean);
+          return;
+        }
+        // 2. JSON string stored directly  e.g. '["tag1","tag2"]'
+        try {
+          const parsed = JSON.parse(val);
+          if (Array.isArray(parsed)) {
+            this.chips = parsed.map(v => String(v).trim()).filter(Boolean);
+            return;
+          }
+        } catch (_) {}
+        // 3. Legacy comma-separated fallback
+        this.chips = String(val).split(this.separator).map(v => v.trim()).filter(Boolean);
       },
     },
   },

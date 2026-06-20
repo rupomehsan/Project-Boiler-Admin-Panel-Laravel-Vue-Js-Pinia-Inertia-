@@ -16,10 +16,9 @@ if (!function_exists('GetSingleData')) {
         }
 
         if ($fieldsWithBraces && !empty($fieldsWithBraces)) {
-            $relationName = '';
-            foreach ($fieldsWithBraces as $field) {
-                $relationName .= "                 \$with = ['{$field['field']}'];\n";
-            }
+            $methods = array_map(fn($f) => Str::camel(str_replace('_', ' ', $f['field'])), $fieldsWithBraces);
+            $fields_list = implode("', '", $methods);
+            $relationName = "                 \$with = ['{$fields_list}'];\n";
         } else {
             $relationName = "                 \$with = [];\n";
         }

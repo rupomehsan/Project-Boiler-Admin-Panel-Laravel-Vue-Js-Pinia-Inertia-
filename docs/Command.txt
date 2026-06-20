@@ -1,0 +1,24 @@
+
+/*
+|--------------------------------------------------------------------------
+| Blog Management
+|--------------------------------------------------------------------------
+*/
+
+
+php artisan make:module BlogManagement/BlogCategory "[name:string-150,description:text,thumbnail:image-150,color:string-50,sort_order:integer,is_active:boolean]" --vue
+
+
+php artisan make:module BlogManagement/BlogTag "[name:string-150,color:color,sort_order:integer,is_active:boolean]" --vue
+
+
+php artisan make:module BlogManagement/BlogWriter "[name:string-150,email:string-150,phone:string-20,bio:text,avatar:image-150,website:url,facebook_url:url,twitter_url:url,linkedin_url:url,is_active:boolean]" --vue
+
+
+php artisan make:module BlogManagement/Blog "[blog_category_id:bigint{BlogManagement/BlogCategory},writer_id:bigint{BlogManagement/BlogWriter},title:string-200,short_description:text,content:longtext,reading_time:integer,average_rating:decimal,publish_date:date,scheduled_at:datetime,thumbnail_image:image-150,gallery:images,blog_type:enum-news.tutorial.opinion.review.case_study,content_format:enum-article.video.podcast.infographic,external_url:url,show_on_top:boolean-yes.no,allow_comments:boolean-yes.no,is_featured:boolean,is_published:boolean,video_link:string-200,meta_title:string-200,meta_description:text,meta_keywords:json]" --vue
+
+
+php artisan make:table BlogManagement/BlogTag/BlogBlogTag "[blog_id:bigint,blog_tag_id:bigint]"
+
+
+

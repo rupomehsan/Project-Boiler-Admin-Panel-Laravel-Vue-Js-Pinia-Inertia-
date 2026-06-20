@@ -40,8 +40,10 @@
                 :type="form_field.type"
                 :name="form_field.name"
                 :placeholder="form_field.placeholder"
+                :rows="form_field.rows"
                 :multiple="form_field.multiple"
                 :value="form_field.value"
+                :sub_fields="form_field.sub_fields"
                 :data_list="form_field.data_list"
                 :is_visible="form_field.is_visible"
                 :class="form_field.class"
@@ -72,102 +74,116 @@ export default {
     form_fields,
     param_id: null,
   }),
-
-  created: async function () {
-    const id = (this.param_id = this.$route.params.id);
+  created: function () {
+    this.param_id = this.$route.params.id ?? null;
     this.reset_fields();
-    // load all relation selects in parallel, then populate edit values
-    await Promise.all([
-      this.loadBlogCategories(),
-    ]);
-    if (id) {
-      await this.set_fields(id);
+  },
+  mounted: async function () {
+    // Load FK select options first, then populate edit values.
+    // This order guarantees data_list exists when value is set,
+    // so the select component can resolve the label immediately.
+    await this.loadSelectOptions();
+    if (this.param_id) {
+      await this.set_fields(this.param_id);
     }
   },
-
   methods: {
     ...mapActions(store, {
       create: "create",
       update: "update",
       details: "details",
+      get_all: "get_all",
       set_only_latest_data: "set_only_latest_data",
     }),
-
-    // ── Relation loaders ───────────────────────────────────────────────
-    async loadBlogCategories() {
-      try {
-        const { data } = await axios.get("blog-categories", {
-          params: { limit: 1000, status: "active" },
-        });
-        // handle both paginated ({ data: { data: [...] } }) and plain ({ data: [...] })
-        const items = data?.data?.data ?? data?.data ?? [];
-        const field = this.form_fields.find((f) => f.name === "blog_category_id");
-        if (field) {
-          field.data_list = items.map((cat) => ({
-            label: cat.title,
-            value: cat.id,
-          }));
+    loadSelectOptions: async function () {
+      for (const field of this.form_fields) {
+        if (field.type === "select" && field.api_end_point) {
+          try {
+            const res = await axios.get(
+              `${field.api_end_point}?get_all=1&status=active`
+            );
+            const items = res.data?.data ?? [];
+            field.data_list = items.map((item) => ({
+              label: item.name || item.title || item.label || String(item.id),
+              value: item.id,
+            }));
+          } catch (e) {
+            console.warn(`Failed to load options for [${field.name}]`, e);
+          }
         }
-      } catch (e) {
-        console.error("Failed to load blog categories:", e);
+      }
+    },
+    reset_fields: function () {
+      this.form_fields.forEach((item) => {
+        item.value = "";
+      });
+    },
+    set_fields: async function (id) {
+      this.param_id = id;
+      await this.details(id);
+      if (this.item) {
+        this.form_fields.forEach((field, index) => {
+          Object.entries(this.item).forEach(([key, val]) => {
+            if (field.name == key) {
+              // FK select fields: API returns the relation object instead of the raw ID.
+              // Extract .id so the select component can match it against data_list values.
+              if (
+                field.type === "select" &&
+                field.api_end_point &&
+                typeof val === "object" &&
+                val !== null &&
+                val.id !== undefined
+              ) {
+                this.form_fields[index].value = val.id;
+              } else {
+                this.form_fields[index].value = val;
+              }
+            }
+
+            if (field.name == "description" && key == "description") {
+              $("#description").summernote("code", val);
+            }
+          });
+        });
       }
     },
 
-    // ── Form helpers ───────────────────────────────────────────────────
-    reset_fields() {
-      this.form_fields.forEach((field) => (field.value = ""));
-    },
-
-    async set_fields(id) {
-      await this.details(id);
-      if (!this.item) return;
-      this.form_fields.forEach((field, index) => {
-        if (field.name in this.item) {
-          this.form_fields[index].value = this.item[field.name];
-        }
-        if (field.name === "description") {
-          try { $("#description").summernote("code", this.item.description); }
-          catch { /* editor not mounted yet */ }
+    syncEditors: function () {
+      // Flush Summernote content into the hidden textarea for every editor field
+      // so new FormData(form) captures the typed content at submit time.
+      this.form_fields.forEach((field) => {
+        if (field.type === "textarea" || field.type === "editor") {
+          try {
+            const content = $(`#${field.name}`).summernote("code");
+            const el = document.getElementById(field.name);
+            if (el) el.value = content;
+          } catch (_) {}
         }
       });
     },
-
-    // ── Submit ─────────────────────────────────────────────────────────
-    async submitHandler($event) {
-      this.setSummerEditor();
+    submitHandler: async function ($event) {
       this.set_only_latest_data(true);
-      const response = this.param_id
-        ? await this.update($event)
-        : await this.create($event);
-
-      if ([200, 201].includes(response?.status)) {
-        window.s_alert(
-          this.param_id ? "Data successfully updated" : "Data successfully created"
-        );
-        this.$router.push({
-          name: this.param_id
-            ? `Details${this.setup.route_prefix}`
-            : `All${this.setup.route_prefix}`,
-        });
-      }
-    },
-
-    setSummerEditor() {
-      const el = document.getElementById("description");
-      if (!el) return;
-      try {
-        const input = document.createElement("input");
-        input.setAttribute("name", "description");
-        input.value = $("#description").summernote("code");
-        el.appendChild(input);
-      } catch (e) {
-        console.warn("Summernote not available:", e);
+      this.syncEditors();
+      if (this.param_id) {
+        let response = await this.update($event);
+        if ([200, 201].includes(response.status)) {
+          window.s_alert("Data successfully updated");
+          this.$router.push({ name: `Details${this.setup.route_prefix}` });
+        }
+      } else {
+        let response = await this.create($event);
+        if ([200, 201].includes(response.status)) {
+          window.s_alert("Data Successfully Created");
+          this.$router.push({ name: `All${this.setup.route_prefix}` });
+        }
       }
     },
   },
 
   computed: {
-    ...mapState(store, { item: "item" }),
+    ...mapState(store, {
+      item: "item",
+    }),
   },
 };
 </script>

@@ -25,6 +25,14 @@ const setup: setup_type = {
 
     // Permission Configuration
     permission: ["admin", "super_admin"],
+    permission_slugs: {
+        view: "blog-category-view",
+        details: "blog-category-details",
+        create: "blog-category-create",
+        edit: "blog-category-edit",
+        delete: "blog-category-delete",
+        import: "blog-category-import",
+    },
 
     // API Configuration
     api_host: app_config.api_host,
@@ -34,9 +42,12 @@ const setup: setup_type = {
     // Field Selection for API requests
     select_fields: [
         "id",
-        "title",
+        "name",
             "description",
-            "icon",
+            "thumbnail",
+            "color",
+            "sort_order",
+            "is_active",
         "status",
         "slug",
         "created_at",
@@ -46,29 +57,41 @@ const setup: setup_type = {
     // Available columns for sorting
     sort_by_cols: [
         "id",
-        "title",
+        "name",
             "description",
-            "icon",
+            "thumbnail",
+            "color",
+            "sort_order",
+            "is_active",
         "status",
         "created_at",
     ],
 
     // Table header columns (shown in list view)
+    // FK fields use readable labels; regular fields use raw names
     table_header_data: [
         "id",
-        "title",
+        "name",
             "description",
-            "icon",
+            "thumbnail",
+            "color",
+            "sort_order",
+            "is_active",
         "status",
         "created_at",
     ],
 
     // Table row data fields (rendered in list view)
+    // FK fields use camelCase relation key so item[key] returns the eager-loaded object
+    // TableBody auto-extracts .name from the object
     table_row_data: [
         "id",
-        "title",
+        "name",
             "description",
-            "icon",
+            "thumbnail",
+            "color",
+            "sort_order",
+            "is_active",
         "status",
         "created_at",
     ],
@@ -76,9 +99,12 @@ const setup: setup_type = {
     // Quick view modal data fields
     quick_view_data: [
         "id",
-        "title",
+        "name",
             "description",
-            "icon",
+            "thumbnail",
+            "color",
+            "sort_order",
+            "is_active",
         "status",
         "created_at",
     ],

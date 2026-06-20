@@ -59,54 +59,13 @@
           },
         ]"
       />
+    
+      
+      
+      
+      
+
       <side-bar-drop-down-menus
-        v-if="has_permission('project-view')"
-        :icon="`fa fa-plus`"
-        :menu_title="`ProjectManagement`"
-        :menus="[
-          {
-            route_name: `AllProject`,
-            title: `Project`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-            permission: 'project-view',
-          },
-          {
-            route_name: `AllProjectComment`,
-            title: `Project Comments`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-            permission: 'project-view',
-          },
-        ]"
-      />
-      <side-bar-drop-down-menus
-        v-if="has_permission('product-view')"
-        :icon="`fa fa-plus`"
-        :menu_title="`ProductManagement`"
-        :menus="[
-          {
-            route_name: `AllDigitalProduct`,
-            title: `DigitalProduct`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-            permission: 'product-view',
-          },
-          {
-            route_name: `AllDigitalProductComment`,
-            title: `Product Comments`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-            permission: 'product-view',
-          },
-          {
-            route_name: `AllProductOrder`,
-            title: `ProductOrder`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-            permission: 'product-view',
-          },
-        ]"
-      />
-      <side-bar-drop-down-menus
-        v-if="
-          has_permission('blog-view') || has_permission('blog-category-view')
-        "
         :icon="`fa fa-plus`"
         :menu_title="`BlogManagement`"
         :menus="[
@@ -114,70 +73,25 @@
             route_name: `AllBlogCategory`,
             title: `BlogCategory`,
             icon: `zmdi zmdi-dot-circle-alt`,
-            permission: 'blog-category-view',
+          },
+          {
+            route_name: `AllBlogTag`,
+            title: `BlogTag`,
+            icon: `zmdi zmdi-dot-circle-alt`,
+          },
+          {
+            route_name: `AllBlogWriter`,
+            title: `BlogWriter`,
+            icon: `zmdi zmdi-dot-circle-alt`,
           },
           {
             route_name: `AllBlog`,
             title: `Blog`,
             icon: `zmdi zmdi-dot-circle-alt`,
-            permission: 'blog-view',
-          },
-          {
-            route_name: `AllBlogComment`,
-            title: `BlogComment`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-            permission: 'blog-view',
           },
         ]"
-      />
-
-      <side-bar-drop-down-menus
-        v-if="has_permission('credential-view')"
-        :icon="`fa fa-plus`"
-        :menu_title="`CredentialManagement`"
-        :menus="[
-          {
-            route_name: `AllCredential`,
-            title: `Credential`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-            permission: 'credential-view',
-          },
-        ]"
-      />
-      <side-bar-drop-down-menus
-        v-if="has_permission('note-view')"
-        :icon="`fa fa-plus`"
-        :menu_title="`PersonalNoteManagement`"
-        :menus="[
-          {
-            route_name: `AllPersonalNote`,
-            title: `PersonalNote`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-            permission: 'note-view',
-          },
-        ]"
-      />
-      <side-bar-drop-down-menus
-        v-if="has_permission('todo-view')"
-        :icon="`fa fa-plus`"
-        :menu_title="`TodoListManagement`"
-        :menus="[
-          {
-            route_name: `AllTodoList`,
-            title: `TodoList`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-            permission: 'todo-view',
-          },
-        ]"
-      />
-      <side-bar-single-menu
-        v-if="has_permission('contact-view')"
-        :icon="`fa fa-plus`"
-        :menu_title="`Contact`"
-        :route_name="`AllContact`"
-      />
-
-      <!-- Management end -->
+/>
+<!-- Management end -->
     </ul>
   </div>
 </template>

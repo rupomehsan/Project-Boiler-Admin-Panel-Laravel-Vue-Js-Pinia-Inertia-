@@ -25,6 +25,14 @@ const setup: setup_type = {
 
     // Permission Configuration
     permission: ["admin", "super_admin"],
+    permission_slugs: {
+        view: "blog-tag-view",
+        details: "blog-tag-details",
+        create: "blog-tag-create",
+        edit: "blog-tag-edit",
+        delete: "blog-tag-delete",
+        import: "blog-tag-import",
+    },
 
     // API Configuration
     api_host: app_config.api_host,
@@ -34,7 +42,10 @@ const setup: setup_type = {
     // Field Selection for API requests
     select_fields: [
         "id",
-        "title",
+        "name",
+            "color",
+            "sort_order",
+            "is_active",
         "status",
         "slug",
         "created_at",
@@ -44,23 +55,35 @@ const setup: setup_type = {
     // Available columns for sorting
     sort_by_cols: [
         "id",
-        "title",
+        "name",
+            "color",
+            "sort_order",
+            "is_active",
         "status",
         "created_at",
     ],
 
     // Table header columns (shown in list view)
+    // FK fields use readable labels; regular fields use raw names
     table_header_data: [
         "id",
-        "title",
+        "name",
+            "color",
+            "sort_order",
+            "is_active",
         "status",
         "created_at",
     ],
 
     // Table row data fields (rendered in list view)
+    // FK fields use camelCase relation key so item[key] returns the eager-loaded object
+    // TableBody auto-extracts .name from the object
     table_row_data: [
         "id",
-        "title",
+        "name",
+            "color",
+            "sort_order",
+            "is_active",
         "status",
         "created_at",
     ],
@@ -68,7 +91,10 @@ const setup: setup_type = {
     // Quick view modal data fields
     quick_view_data: [
         "id",
-        "title",
+        "name",
+            "color",
+            "sort_order",
+            "is_active",
         "status",
         "created_at",
     ],

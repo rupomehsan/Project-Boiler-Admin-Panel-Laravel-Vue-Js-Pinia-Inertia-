@@ -14,7 +14,16 @@ return new class extends Migration
     {
         Schema::create('blog_writers', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100)->nullable();
+            $table->string('name', 150)->nullable();
+            $table->string('email', 150)->nullable();
+            $table->string('phone', 20)->nullable();
+            $table->text('bio')->nullable();
+            $table->string('avatar', 150)->nullable();
+            $table->string('website', 100)->nullable();
+            $table->string('facebook_url', 100)->nullable();
+            $table->string('twitter_url', 100)->nullable();
+            $table->string('linkedin_url', 100)->nullable();
+            $table->tinyInteger('is_active')->default(0);
 
             $table->bigInteger('creator')->unsigned()->nullable();
             $table->string('slug', 50)->nullable();

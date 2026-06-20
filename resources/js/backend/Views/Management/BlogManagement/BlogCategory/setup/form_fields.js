@@ -1,15 +1,53 @@
 /**
  * Form Fields Configuration
- *
- * Auto-generated form field definitions.
- * Each field includes type, validation, and display properties.
+ * Auto-generated — edit data_list / class / is_visible as needed.
  */
 
 export default [
 	{
-		name: "title",
-		label: "Enter Title",
+		name: "name",
+		label: "Enter Name",
 		type: "text",
+		value: "",
+		is_visible: true,
+		class: "col-md-6",
+	},
+	{
+		name: "thumbnail",
+		label: "Upload Thumbnail",
+		type: "file",
+		multiple: false,
+		accept: "image/*",
+		value: "",
+		is_visible: true,
+		class: "col-md-6",
+	},
+	{
+		name: "color",
+		label: "Enter Color",
+		type: "color",
+		value: "",
+		is_visible: true,
+		class: "col-md-6",
+	},
+	{
+		name: "sort_order",
+		label: "Enter Sort Order",
+		type: "number",
+		step: "1",
+		value: "",
+		is_visible: true,
+		class: "col-md-6",
+	},
+	{
+		name: "is_active",
+		label: "Select Is Active",
+		type: "select",
+		multiple: false,
+		data_list: [
+			{ label: "Yes", value: "1" },
+			{ label: "No", value: "0" },
+		],
 		value: "",
 		is_visible: true,
 		class: "col-md-6",
@@ -21,14 +59,6 @@ export default [
 		rows: 4,
 		value: "",
 		is_visible: true,
-		class: "col-md-6",
-	},
-	{
-		name: "icon",
-		label: "Enter Icon",
-		type: "text",
-		value: "",
-		is_visible: true,
-		class: "col-md-6",
+		class: "col-md-12",
 	},
 ];

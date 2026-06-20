@@ -1,6 +1,18 @@
 <template>
   <div :class="class_name" v-if="is_visible">
-    <div class="form-group">
+
+    <!-- ── Dynamic repeater (json_multi): renders its own header ──── -->
+    <div v-if="type === 'json_multi'" class="mt-1 mb-3">
+      <dynamic-repeater
+        :name="name"
+        :label="label"
+        :value="value"
+        :sub_fields="sub_fields || []"
+      />
+    </div>
+
+    <!-- ── All other types: standard form-group with label ──────── -->
+    <div v-else class="form-group">
       <label :for="name">{{ label || name }}</label>
 
       <!-- ── Standard text-like inputs ──────────────────────────────── -->
@@ -32,9 +44,9 @@
         />
       </div>
 
-      <!-- ── Textarea / rich-text editor ────────────────────────────── -->
+      <!-- ── Textarea / rich-text editor (Summernote) ─────────────── -->
       <div v-if="type === 'textarea' || type === 'editor'" class="mt-1 mb-3">
-        <text-editor :name="name" />
+        <text-editor :name="name" :value="value" :rows="rows" />
       </div>
 
       <!-- ── Searchable select (single & multiple) ──────────────────── -->
@@ -48,7 +60,7 @@
         />
       </div>
 
-      <!-- ── Multi-chip tag input ────────────────────────────────────── -->
+      <!-- ── Multi-chip tag input (json single-value) ───────────────── -->
       <div v-if="type === 'multichip'" class="mt-1 mb-3">
         <multi-chip-input
           :name="name"
@@ -88,6 +100,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -96,33 +109,35 @@ import TextEditor from "./TextEditor.vue";
 import ImageComponent from "./ImageComponent.vue";
 import SelectInput from "./SelectInput.vue";
 import MultiChipInput from "./MultiChipInput.vue";
+import DynamicRepeater from "./DynamicRepeater.vue";
 
 export default {
-  components: { TextEditor, ImageComponent, SelectInput, MultiChipInput },
+  components: { TextEditor, ImageComponent, SelectInput, MultiChipInput, DynamicRepeater },
 
   props: {
-    is_visible: { type: [Boolean, String], default: true },
-    name: { type: String, required: true },
-    label: { type: String, required: true },
-    type: { type: [String, Array, Object], required: true },
-    placeholder: { type: String, default: null },
-    multiple: { type: [Boolean, String], default: false },
-    value: { type: [String, Number, Array], default: null },
-    data_list: { type: Array, default: null },
-    images_list: { type: Array, default: null },
-    item: { type: Object, default: null },
-    class_name: { type: String, default: "col-md-6" },
-    onchange: { type: Function, default: null },
-    onchangeAction: { type: String, default: null },
-    api_url: { type: String, default: null },
-    accept: { type: String, default: null },
-    min: { type: [String, Number], default: null },
-    max: { type: [String, Number], default: null },
-    step: { type: [String, Number], default: null },
+    is_visible:      { type: [Boolean, String],          default: true },
+    name:            { type: String,                     required: true },
+    label:           { type: String,                     required: true },
+    type:            { type: [String, Array, Object],    required: true },
+    placeholder:     { type: String,                     default: null },
+    multiple:        { type: [Boolean, String],          default: false },
+    value:           { type: [String, Number, Array],    default: null },
+    rows:            { type: [String, Number],           default: null },
+    sub_fields:      { type: Array,                      default: null },
+    data_list:       { type: Array,                      default: null },
+    images_list:     { type: Array,                      default: null },
+    item:            { type: Object,                     default: null },
+    class_name:      { type: String,                     default: "col-md-6" },
+    onchange:        { type: Function,                   default: null },
+    onchangeAction:  { type: String,                     default: null },
+    api_url:         { type: String,                     default: null },
+    accept:          { type: String,                     default: null },
+    min:             { type: [String, Number],           default: null },
+    max:             { type: [String, Number],           default: null },
+    step:            { type: [String, Number],           default: null },
   },
 
   methods: {
-    // Native inputs
     errorReset(event) {
       const el = event.target;
       const next = el.nextElementSibling;
@@ -133,7 +148,6 @@ export default {
       this.fireOnchange(event);
     },
 
-    // SelectInput emits the selected value(s)
     onSelectChange(value) {
       const ctrl = this.$el.querySelector(".ss-control");
       if (ctrl) {
@@ -144,7 +158,6 @@ export default {
       this.fireOnchange({ target: { name: this.name, value } });
     },
 
-    // MultiChipInput emits the comma-separated string
     onChipChange(value) {
       const box = this.$el.querySelector(".mc-box");
       if (box) box.classList.remove("border-warning");
@@ -164,9 +177,7 @@ export default {
       if (this.item) return this.item;
       try {
         if (this.$parent?.item) return this.$parent.item;
-      } catch {
-        /**/
-      }
+      } catch { /**/ }
       return null;
     },
   },

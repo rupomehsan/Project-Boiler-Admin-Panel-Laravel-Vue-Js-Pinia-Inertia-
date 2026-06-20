@@ -17,10 +17,14 @@ class Seeder extends SeederClass
         $faker = Faker::create();
         self::$model::truncate();
 
+
         for ($i = 1; $i <= 100; $i++) {
-            self::$model::create([                'title' => $faker->text(100),
+            self::$model::create([                'name' => $faker->text(150),
                 'description' => $faker->paragraph,
-                'icon' => $faker->text(50),
+                'thumbnail' => $faker->text(150),
+                'color' => $faker->text(50),
+                'sort_order' => $faker->randomNumber(5),
+                'is_active' => $faker->boolean,
             ]);
         }
     }

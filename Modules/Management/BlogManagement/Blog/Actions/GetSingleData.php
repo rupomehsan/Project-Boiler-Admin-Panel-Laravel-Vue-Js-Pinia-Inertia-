@@ -11,8 +11,7 @@ class GetSingleData
     public static function execute($slug)
     {
         try {
-
-            $with = ['blog_category:id,title'];
+                             $with = ['blogCategoryId', 'writerId'];
 
             $fields = request()->input('fields') ?? ['*'];
             if (!$data = self::$model::query()->with($with)->select($fields)->where('slug', $slug)->first()) {

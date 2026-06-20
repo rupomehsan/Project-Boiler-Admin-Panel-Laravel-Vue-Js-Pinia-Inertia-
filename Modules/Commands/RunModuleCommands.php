@@ -27,10 +27,10 @@ class RunModuleCommands extends Command
      */
     public function handle()
     {
-        $filePath = base_path('command.txt');
+        $filePath = base_path('docs/command.txt');
 
         if (!file_exists($filePath)) {
-            $this->error("command.txt file not found at project root.");
+            $this->error("docs/command.txt file not found.");
             return 1;
         }
 

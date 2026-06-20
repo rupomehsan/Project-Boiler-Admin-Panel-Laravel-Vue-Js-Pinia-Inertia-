@@ -21,6 +21,18 @@ if (!function_exists('Seeder')) {
         // dd($targetClass);
 
 
+        // ── Pre-loop: collect FK relation ID arrays ──────────────────────
+        $preSeedLines = "";
+        foreach ($fields as $field) {
+            [$fieldName, $fieldType] = $field;
+            if ((str_starts_with($fieldType, 'bigint') || str_starts_with($fieldType, 'biginteger'))
+                && preg_match('/\{([^}]+)\}/', $fieldType, $braceMatch)) {
+                $relPath = str_replace('/', '\\', $braceMatch[1]);
+                $varBase = Str::camel(preg_replace('/_id$/', '', $fieldName)); // blogCategoryId → blogCategory
+                $preSeedLines .= "                \${$varBase}Ids = \\Modules\\Management\\{$relPath}\\Database\\Models\\Model::pluck('id')->toArray();\n";
+            }
+        }
+
         $content = <<<"EOD"
         <?php
         namespace Modules\\Management\\{$moduleName}\\Database\\Seeders;
@@ -41,6 +53,7 @@ if (!function_exists('Seeder')) {
                 \$faker = Faker::create();
                 self::\$model::truncate();
 
+        {$preSeedLines}
                 for (\$i = 1; \$i <= 100; \$i++) {
                     self::\$model::create([
         EOD;
@@ -75,7 +88,14 @@ if (!function_exists('Seeder')) {
                         $content .= "                '$fieldName' => \$faker->randomElement(" . var_export($options, true) . "),\n";
                         break;
                     case $fieldType === 'json':
-                        $content .= "                '$fieldName' => json_encode([\$faker->word, \$faker->word]),\n";
+                        // Pass PHP array — model's 'json' cast encodes to JSON on save
+                        $content .= "                '$fieldName' => [\$faker->word, \$faker->word],\n";
+                        break;
+                    case (bool) preg_match('/^json-(.+)$/', $fieldType, $jsonM):
+                        // json-a.b.c type (DynamicRepeater) — pass array of objects
+                        $subFields  = explode('.', $jsonM[1]);
+                        $subPairs   = implode(', ', array_map(fn($f) => "'{$f}' => \$faker->word", $subFields));
+                        $content   .= "                '$fieldName' => [[$subPairs]],\n";
                         break;
                     case in_array($fieldType, ['float', 'decimal', 'double']):
                         $content .= "                '$fieldName' => \$faker->randomFloat(2, 0, 1000),\n";
@@ -87,8 +107,14 @@ if (!function_exists('Seeder')) {
                         $content .= "                '$fieldName' => \$faker->dateTime()->format('Y-m-d H:i:s'),\n";
                         break;
                     case str_starts_with($fieldType, 'bigint') || str_starts_with($fieldType, 'biginteger'):
-                        $content .= "                '$fieldName' => \$faker->randomNumber(8),\n";
-                        break;  
+                        if (preg_match('/\{([^}]+)\}/', $fieldType, $braceMatch)) {
+                            // FK field — pick randomly from pre-fetched IDs array
+                            $varBase = Str::camel(preg_replace('/_id$/', '', $fieldName));
+                            $content .= "                '$fieldName' => !empty(\${$varBase}Ids) ? \${$varBase}Ids[array_rand(\${$varBase}Ids)] : null,\n";
+                        } else {
+                            $content .= "                '$fieldName' => \$faker->randomNumber(8),\n";
+                        }
+                        break;
                     case $fieldType === 'uuid':
                         $content .= "                '$fieldName' => \$faker->uuid,\n";
                         break;

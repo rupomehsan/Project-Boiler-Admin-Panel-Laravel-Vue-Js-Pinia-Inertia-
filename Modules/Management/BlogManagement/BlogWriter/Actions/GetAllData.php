@@ -27,7 +27,25 @@ class GetAllData
             if (request()->has('search') && request()->input('search')) {
                 $searchKey = request()->input('search');
                 $data = $data->where(function ($q) use ($searchKey) {
-    $q->where('name', 'like', '%' . $searchKey . '%');              
+    $q->where('name', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('email', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('phone', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('bio', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('avatar', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('website', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('facebook_url', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('twitter_url', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('linkedin_url', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('is_active', 'like', '%' . $searchKey . '%');              
 
                 });
             }

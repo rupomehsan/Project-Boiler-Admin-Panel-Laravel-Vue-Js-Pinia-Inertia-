@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class DeleteModuleCommand extends Command
 {
-    protected $signature = 'delete:module {module_name} {[field]?} {--vue}';
+    protected $signature = 'delete:module {module_name} {[field]?} {--vue} {--force}';
     protected $description = 'Reverse of make:module — delete backend/frontend module files and all registrations';
 
     protected string $moduleName;
@@ -23,7 +23,7 @@ class DeleteModuleCommand extends Command
 
         $this->warn("About to delete module: {$this->ViewModuleName}");
 
-        if (!$this->confirm('This will permanently delete files and drop the database table. Continue?', true)) {
+        if (!$this->option('force') && !$this->confirm('This will permanently delete files and drop the database table. Continue?', true)) {
             $this->info('Aborted.');
             return 0;
         }
@@ -74,9 +74,8 @@ class DeleteModuleCommand extends Command
             $base   = base_path('Modules/Management');
             $parent = dirname($path);
             while ($parent !== $base && File::isDirectory($parent)) {
-                $items = File::files($parent);
-                $dirs  = File::directories($parent);
-                if (empty($items) && empty($dirs)) {
+                $contents = array_diff(scandir($parent), ['.', '..']);
+                if (empty($contents)) {
                     File::deleteDirectory($parent);
                     $this->info("Deleted empty parent directory: {$parent}");
                     $parent = dirname($parent);
@@ -111,19 +110,22 @@ class DeleteModuleCommand extends Command
 
     protected function removeRouteFromApiRoutes(): void
     {
-        $filePath     = base_path('Modules/Routes/Backend/ApiRoutes.php');
-        $routeInclude = "include_once base_path(\"Modules/Management/{$this->ViewModuleName}/Routes/Route.php\");\n";
+        $filePath = base_path('Modules/Routes/Backend/ApiRoutes.php');
 
         if (!File::exists($filePath)) {
             $this->warn('ApiRoutes.php not found.');
             return;
         }
 
-        $content = File::get($filePath);
+        $content  = File::get($filePath);
+        $needle   = "include_once base_path(\"Modules/Management/{$this->ViewModuleName}/Routes/Route.php\");";
 
-        if (str_contains($content, $routeInclude)) {
-            $content = str_replace($routeInclude, '', $content);
-            File::put($filePath, $content);
+        // Remove the line regardless of \n or \r\n line endings
+        $pattern  = '/\r?\n?' . preg_quote($needle, '/') . '\r?\n?/';
+        $new      = preg_replace($pattern, "\n", $content);
+
+        if ($new !== $content) {
+            File::put($filePath, $new);
             $this->info('Removed route include from ApiRoutes.php');
         } else {
             $this->warn('Route include not found in ApiRoutes.php — skipping.');
@@ -213,9 +215,8 @@ PHP;
             $base   = resource_path('js/backend/Views/Management');
             $parent = dirname($path);
             while ($parent !== $base && File::isDirectory($parent)) {
-                $items = File::files($parent);
-                $dirs  = File::directories($parent);
-                if (empty($items) && empty($dirs)) {
+                $contents = array_diff(scandir($parent), ['.', '..']);
+                if (empty($contents)) {
                     File::deleteDirectory($parent);
                     $this->info("Deleted empty Vue parent directory: {$parent}");
                     $parent = dirname($parent);

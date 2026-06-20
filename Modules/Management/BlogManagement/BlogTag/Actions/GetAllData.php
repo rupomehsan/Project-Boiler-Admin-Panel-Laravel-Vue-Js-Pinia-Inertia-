@@ -27,7 +27,13 @@ class GetAllData
             if (request()->has('search') && request()->input('search')) {
                 $searchKey = request()->input('search');
                 $data = $data->where(function ($q) use ($searchKey) {
-    $q->where('title', 'like', '%' . $searchKey . '%');              
+    $q->where('name', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('color', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('sort_order', 'like', '%' . $searchKey . '%');    
+
+    $q->orWhere('is_active', 'like', '%' . $searchKey . '%');              
 
                 });
             }

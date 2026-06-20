@@ -31,19 +31,35 @@ if (!function_exists('SetupIndex')) {
         $store = Str::snake($moduleName);
         $slug = $moduleName; // e.g. "blog", "test"
 
-        // Extract field names (excluding braces for relationships)
-        $form_fields = [];
+        // Extract field names, separating FK columns from regular fields
+        $form_fields      = [];
+        $fk_columns       = [];  // raw DB column names  → select_fields / table_row_data
+        $fk_header_labels = [];  // human-readable label → table_header_data
         foreach ($fields as $field) {
             $fieldName = $field[0];
-            // Skip relationship fields with braces
-            if (!isset($field[1]) || !preg_match('/\{.*\}/', $field[1])) {
+            if (isset($field[1]) && preg_match('/\{.*\}/', $field[1])) {
+                $fk_columns[]       = $fieldName;  // "blog_category_id"
+                $label              = Str::title(str_replace('_', ' ', preg_replace('/_id$/', '', $fieldName)));
+                $fk_header_labels[] = $label;      // "Blog Category"
+            } else {
                 $form_fields[] = $fieldName;
             }
         }
 
+        // select_fields + table_row_data: raw column names
+        // Laravel snake_cases relation keys in JSON, so item['blog_category_id'] IS the relation object
+        $all_select  = array_merge($fk_columns, $form_fields);
+        // table_header_data: readable labels for FK, raw names for regular fields
+        $header_data = array_merge($fk_header_labels, $form_fields);
+
         // Format field arrays for TypeScript
-        $selectFields = implode(",\n            ", array_map(fn($field) => "\"$field\"", $form_fields));
-        $sortByCols = implode(",\n            ", array_map(fn($field) => "\"$field\"", $form_fields));
+        $selectFields = implode(",\n            ", array_map(fn($f) => "\"$f\"", $all_select));
+        $headerFields = implode(",\n            ", array_map(fn($f) => "\"$f\"", $header_data));
+        // table_row_data uses raw column names — Laravel snake_cases relation keys in JSON,
+        // so item['blog_category_id'] contains the relation object (overwrites the FK integer).
+        // cellValue() already extracts .name from any object.
+        $rowFields    = $selectFields;
+        $sortByCols   = implode(",\n            ", array_map(fn($f) => "\"$f\"", $form_fields));
 
         $content = <<<"EOD"
 /**
@@ -106,17 +122,20 @@ const setup: setup_type = {
     ],
 
     // Table header columns (shown in list view)
+    // FK fields use readable labels; regular fields use raw names
     table_header_data: [
         "id",
-        {$selectFields},
+        {$headerFields},
         "status",
         "created_at",
     ],
 
     // Table row data fields (rendered in list view)
+    // FK fields use camelCase relation key so item[key] returns the eager-loaded object
+    // TableBody auto-extracts .name from the object
     table_row_data: [
         "id",
-        {$selectFields},
+        {$rowFields},
         "status",
         "created_at",
     ],
@@ -124,7 +143,7 @@ const setup: setup_type = {
     // Quick view modal data fields
     quick_view_data: [
         "id",
-        {$selectFields},
+        {$rowFields},
         "status",
         "created_at",
     ],

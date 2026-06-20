@@ -49,6 +49,16 @@ use Illuminate\Support\Str;
 |
 */
 
+if (!function_exists('isTextareaType')) {
+    // Returns true for types that produce a wide (full-width) input.
+    // Only explicit types qualify — name-based detection never resolves to textarea/editor.
+    function isTextareaType($fieldName)
+    {
+        $type = strtolower(explode('-', $fieldName[1] ?? 'string')[0]);
+        return in_array($type, ['text', 'longtext', 'json', 'editor', 'richtext', 'wysiwyg']);
+    }
+}
+
 if (!function_exists('FormField')) {
     function FormField($fields)
     {
@@ -58,11 +68,45 @@ if (!function_exists('FormField')) {
         $content .= " */\n\n";
         $content .= "export default [\n";
 
+        // Split: textarea/editor types go last with col-md-12; everything else stays col-md-6.
+        $normalFields   = [];
+        $textareaFields = [];
         foreach ($fields as $fieldName) {
-            if (isset($fieldName[1]) && preg_match('/\{.*\}/', $fieldName[1])) {
-                continue; // relationship fields handled separately
+            $isFk = isset($fieldName[1]) && preg_match('/\{[^}]+\}/', $fieldName[1]);
+            if (!$isFk && isTextareaType($fieldName)) {
+                $textareaFields[] = $fieldName;
+            } else {
+                $normalFields[] = $fieldName;
             }
-            $content .= generateFieldConfig($fieldName);
+        }
+
+        // ── Normal fields (col-md-6) ────────────────────────────────────
+        foreach ($normalFields as $fieldName) {
+            if (isset($fieldName[1]) && preg_match('/\{([^}]+)\}/', $fieldName[1], $braceMatch)) {
+                $name        = $fieldName[0];
+                $label       = Str::title(str_replace('_', ' ', preg_replace('/_id$/', '', $name)));
+                $relParts    = explode('/', $braceMatch[1]);
+                $relModule   = end($relParts);
+                $apiEndPoint = Str::plural(Str::kebab($relModule));
+                $content .= "\t{\n";
+                $content .= "\t\tname: \"{$name}\",\n";
+                $content .= "\t\tlabel: \"Select {$label}\",\n";
+                $content .= "\t\ttype: \"select\",\n";
+                $content .= "\t\tmultiple: false,\n";
+                $content .= "\t\tapi_end_point: \"{$apiEndPoint}\",\n";
+                $content .= "\t\tdata_list: [],\n";
+                $content .= "\t\tvalue: \"\",\n";
+                $content .= "\t\tis_visible: true,\n";
+                $content .= "\t\tclass: \"col-md-6\",\n";
+                $content .= "\t},\n";
+                continue;
+            }
+            $content .= generateFieldConfig($fieldName, 'col-md-6');
+        }
+
+        // ── Textarea / editor fields (col-md-12, always last) ───────────
+        foreach ($textareaFields as $fieldName) {
+            $content .= generateFieldConfig($fieldName, 'col-md-12');
         }
 
         $content .= "];\n";
@@ -71,7 +115,7 @@ if (!function_exists('FormField')) {
 }
 
 if (!function_exists('generateFieldConfig')) {
-    function generateFieldConfig($fieldName)
+    function generateFieldConfig($fieldName, $class = 'col-md-6')
     {
         $name     = $fieldName[0];
         $type     = $fieldName[1] ?? 'string';
@@ -184,7 +228,7 @@ if (!function_exists('generateFieldConfig')) {
         $config .= getFieldTypeConfig($type, $displayLabel);
         $config .= "\t\tvalue: \"\",\n";
         $config .= "\t\tis_visible: true,\n";
-        $config .= "\t\tclass: \"col-md-6\",\n";
+        $config .= "\t\tclass: \"{$class}\",\n";
         $config .= "\t},\n";
 
         return $config;
@@ -216,6 +260,15 @@ if (!function_exists('getFieldTypeConfig')) {
             );
         }
 
+        // Multi-field JSON repeater: json-subA.subB.subC
+        if (preg_match('/^json-(.+)$/', $originalType, $m)) {
+            $subFields   = explode('.', $m[1]);
+            $subFieldsJs = '[' . implode(', ', array_map(fn($f) => '"' . $f . '"', $subFields)) . ']';
+            $config  = "\t\ttype: \"json_multi\",\n";
+            $config .= "\t\tsub_fields: {$subFieldsJs},\n";
+            return $config;
+        }
+
         return getBasicFieldTypeConfig($type, $originalType);
     }
 }
@@ -235,9 +288,7 @@ if (!function_exists('getBasicFieldTypeConfig')) {
                 break;
 
             case 'json':
-                $config .= "\t\ttype: \"textarea\",\n";
-                $config .= "\t\trows: 6,\n";
-                $config .= "\t\tplaceholder: \"Enter valid JSON\",\n";
+                $config .= "\t\ttype: \"multichip\",\n";
                 break;
 
             // ── Rich text editor ─────────────────────────────────────────

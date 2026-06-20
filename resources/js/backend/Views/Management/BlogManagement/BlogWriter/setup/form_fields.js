@@ -1,8 +1,6 @@
 /**
  * Form Fields Configuration
- *
- * Auto-generated form field definitions.
- * Each field includes type, validation, and display properties.
+ * Auto-generated — edit data_list / class / is_visible as needed.
  */
 
 export default [
@@ -13,5 +11,91 @@ export default [
 		value: "",
 		is_visible: true,
 		class: "col-md-6",
+	},
+	{
+		name: "email",
+		label: "Enter Email",
+		type: "email",
+		placeholder: "example@domain.com",
+		value: "",
+		is_visible: true,
+		class: "col-md-6",
+	},
+	{
+		name: "phone",
+		label: "Enter Phone",
+		type: "tel",
+		placeholder: "+1 (555) 000-0000",
+		value: "",
+		is_visible: true,
+		class: "col-md-6",
+	},
+	{
+		name: "avatar",
+		label: "Upload Avatar",
+		type: "file",
+		multiple: false,
+		accept: "image/*",
+		value: "",
+		is_visible: true,
+		class: "col-md-6",
+	},
+	{
+		name: "website",
+		label: "Enter Website",
+		type: "url",
+		placeholder: "https://example.com",
+		value: "",
+		is_visible: true,
+		class: "col-md-6",
+	},
+	{
+		name: "facebook_url",
+		label: "Enter Facebook Url",
+		type: "url",
+		placeholder: "https://example.com",
+		value: "",
+		is_visible: true,
+		class: "col-md-6",
+	},
+	{
+		name: "twitter_url",
+		label: "Enter Twitter Url",
+		type: "url",
+		placeholder: "https://example.com",
+		value: "",
+		is_visible: true,
+		class: "col-md-6",
+	},
+	{
+		name: "linkedin_url",
+		label: "Enter Linkedin Url",
+		type: "url",
+		placeholder: "https://example.com",
+		value: "",
+		is_visible: true,
+		class: "col-md-6",
+	},
+	{
+		name: "is_active",
+		label: "Select Is Active",
+		type: "select",
+		multiple: false,
+		data_list: [
+			{ label: "Yes", value: "1" },
+			{ label: "No", value: "0" },
+		],
+		value: "",
+		is_visible: true,
+		class: "col-md-6",
+	},
+	{
+		name: "bio",
+		label: "Enter Bio",
+		type: "textarea",
+		rows: 4,
+		value: "",
+		is_visible: true,
+		class: "col-md-12",
 	},
 ];

@@ -49,6 +49,14 @@ if (!function_exists('Migration')) {
                 }
                 if (count($fieldName) > 1) {
                     $type = $fieldName[1];
+                    // Strip FK hint e.g. bigint{ProductManagement/ProductGroup} → bigint
+                    $type = preg_replace('/\{[^}]*\}/', '', $type);
+
+                    // json-a.b.c is json_multi — stored as MySQL json column, not enum
+                    if (preg_match('/^json-/', $type)) {
+                        $type = 'json';
+                    }
+
                     //enum value set
                     $enumvalue = [];
 
@@ -214,6 +222,14 @@ if (!function_exists('TableMigration')) {
                 }
                 if (count($fieldName) > 1) {
                     $type = $fieldName[1];
+                    // Strip FK hint e.g. bigint{ProductManagement/ProductGroup} → bigint
+                    $type = preg_replace('/\{[^}]*\}/', '', $type);
+
+                    // json-a.b.c is json_multi — stored as MySQL json column, not enum
+                    if (preg_match('/^json-/', $type)) {
+                        $type = 'json';
+                    }
+
                     //enum value set
                     $enumvalue = [];
 

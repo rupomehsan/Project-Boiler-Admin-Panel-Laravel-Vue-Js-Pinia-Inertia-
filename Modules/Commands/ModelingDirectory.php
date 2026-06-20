@@ -17,7 +17,9 @@ class ModelingDirectory extends Command
     protected $ViewModuleName;
     protected $fields = [];
     protected $fileFields = [];
+    protected $multiFileFields = [];
     protected $jsonFields = [];
+    protected $jsonMultiFields = [];
     protected $hasFileUploads = false;
     protected $hasJsonUploads = false;
     protected $fieldsWithBraces = [];
@@ -73,23 +75,35 @@ class ModelingDirectory extends Command
             $this->fields[] = explode(':', $item);
         }
 
-        // Identify file fields (file / image / images types all trigger upload handling)
-        $this->fileFields = [];
-        $this->hasFileUploads = false;
+        // Identify file fields — split single-file (image/file) from multi-file (images)
+        $this->fileFields      = [];
+        $this->multiFileFields = [];
+        $this->hasFileUploads  = false;
         foreach ($this->fields as $key => $field) {
             $baseType = isset($field[1]) ? strtolower(explode('-', $field[1])[0]) : '';
             if (in_array($baseType, ['file', 'image', 'images'])) {
-                $this->fileFields[] = $field[0];
                 $this->hasFileUploads = true;
+                if ($baseType === 'images') {
+                    $this->multiFileFields[] = $field[0];
+                } else {
+                    $this->fileFields[] = $field[0];
+                }
             }
         }
         // Identify Json fields
-        $this->jsonFields = [];
-        $this->hasJsonUploads = false;
+        // json       → multichip (single-value tags, stored as comma string)
+        // json-a.b.c → json_multi (repeater, stored as JSON array — needs model cast)
+        $this->jsonFields      = [];
+        $this->jsonMultiFields = [];
+        $this->hasJsonUploads  = false;
         foreach ($this->fields as $key => $field) {
-            if (isset($field[1]) && $field[1] === 'json') {
-                $this->jsonFields[] = $field[0];
+            $type = $field[1] ?? '';
+            if ($type === 'json') {
+                $this->jsonFields[]  = $field[0];
                 $this->hasJsonUploads = true;
+            } elseif (preg_match('/^json-(.+)$/', $type)) {
+                $this->jsonMultiFields[] = $field[0];
+                $this->hasJsonUploads    = true;
             }
         }
 
@@ -140,8 +154,8 @@ class ModelingDirectory extends Command
 
         $files = [
             'Actions/GetAllData.php' => GetAllData($module_path, $fields, $this->fieldsWithBraces),
-            'Actions/StoreData.php' => StoreData($module_path, $this->fileFields, $this->hasFileUploads),
-            'Actions/UpdateData.php' => UpdateData($module_path, $this->fileFields, $this->hasFileUploads),
+            'Actions/StoreData.php' => StoreData($module_path, $this->fileFields, $this->multiFileFields, $this->hasFileUploads, $this->jsonFields),
+            'Actions/UpdateData.php' => UpdateData($module_path, $this->fileFields, $this->multiFileFields, $this->hasFileUploads, $this->jsonFields),
             'Actions/GetSingleData.php' => GetSingleData($module_path, $this->fieldsWithBraces),
             'Actions/UpdateStatus.php' => UpdateStatus($module_path),
             'Actions/SoftDelete.php' => SoftDelete($module_path),
@@ -152,7 +166,7 @@ class ModelingDirectory extends Command
             'Validations/DataStoreValidation.php' => DataStoreValidation($module_path, $fields),
             'Validations/BulkActionsValidation.php' => BulkActionsValidation($module_path, $fields),
             'Controller/Controller.php' => Controller($module_path),
-            'Database/Models/Model.php' => Model($module_path, $this->moduleName, $this->jsonFields, $this->hasJsonUploads, $this->fieldsWithBraces),
+            'Database/Models/Model.php' => Model($module_path, $this->moduleName, $this->jsonFields, $this->hasJsonUploads, $this->fieldsWithBraces, $this->jsonMultiFields),
             "Database/Migrations/create_" . Str::plural(Str::snake($this->moduleName)) . "_table.php" => Migration($module_path, $fields),
             'Database/Seeders/Seeder.php' => Seeder($module_path, $this->moduleName, $fields),
             'Routes/Route.php' => RouteContent($module_path, $this->moduleName),
@@ -183,11 +197,12 @@ class ModelingDirectory extends Command
 
     protected function appendRouteToApiRoutes()
     {
-        $filePath = base_path("Modules/Routes/Backend/ApiRoutes.php");
-        $routeInclude = "include_once base_path(\"Modules/Management/{$this->ViewModuleName}/Routes/Route.php\");\n";
+        $filePath     = base_path("Modules/Routes/Backend/ApiRoutes.php");
+        $needle       = "include_once base_path(\"Modules/Management/{$this->ViewModuleName}/Routes/Route.php\");";
+        $content      = file_get_contents($filePath);
 
-        if (!str_contains(file_get_contents($filePath), $routeInclude)) {
-            file_put_contents($filePath, $routeInclude, FILE_APPEND);
+        if (!str_contains($content, $needle)) {
+            file_put_contents($filePath, "\n" . $needle . "\n", FILE_APPEND);
         }
     }
 

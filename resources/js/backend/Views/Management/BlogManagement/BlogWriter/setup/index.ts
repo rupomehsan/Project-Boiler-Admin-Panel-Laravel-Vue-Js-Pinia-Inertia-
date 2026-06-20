@@ -25,6 +25,14 @@ const setup: setup_type = {
 
     // Permission Configuration
     permission: ["admin", "super_admin"],
+    permission_slugs: {
+        view: "blog-writer-view",
+        details: "blog-writer-details",
+        create: "blog-writer-create",
+        edit: "blog-writer-edit",
+        delete: "blog-writer-delete",
+        import: "blog-writer-import",
+    },
 
     // API Configuration
     api_host: app_config.api_host,
@@ -35,6 +43,15 @@ const setup: setup_type = {
     select_fields: [
         "id",
         "name",
+            "email",
+            "phone",
+            "bio",
+            "avatar",
+            "website",
+            "facebook_url",
+            "twitter_url",
+            "linkedin_url",
+            "is_active",
         "status",
         "slug",
         "created_at",
@@ -45,22 +62,52 @@ const setup: setup_type = {
     sort_by_cols: [
         "id",
         "name",
+            "email",
+            "phone",
+            "bio",
+            "avatar",
+            "website",
+            "facebook_url",
+            "twitter_url",
+            "linkedin_url",
+            "is_active",
         "status",
         "created_at",
     ],
 
     // Table header columns (shown in list view)
+    // FK fields use readable labels; regular fields use raw names
     table_header_data: [
         "id",
         "name",
+            "email",
+            "phone",
+            "bio",
+            "avatar",
+            "website",
+            "facebook_url",
+            "twitter_url",
+            "linkedin_url",
+            "is_active",
         "status",
         "created_at",
     ],
 
     // Table row data fields (rendered in list view)
+    // FK fields use camelCase relation key so item[key] returns the eager-loaded object
+    // TableBody auto-extracts .name from the object
     table_row_data: [
         "id",
         "name",
+            "email",
+            "phone",
+            "bio",
+            "avatar",
+            "website",
+            "facebook_url",
+            "twitter_url",
+            "linkedin_url",
+            "is_active",
         "status",
         "created_at",
     ],
@@ -69,6 +116,15 @@ const setup: setup_type = {
     quick_view_data: [
         "id",
         "name",
+            "email",
+            "phone",
+            "bio",
+            "avatar",
+            "website",
+            "facebook_url",
+            "twitter_url",
+            "linkedin_url",
+            "is_active",
         "status",
         "created_at",
     ],
