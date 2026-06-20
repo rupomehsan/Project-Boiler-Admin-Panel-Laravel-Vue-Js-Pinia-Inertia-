@@ -45,8 +45,34 @@ class Seeder extends SeederClass
                 "title" => "site_name",
                 "values" => [
                     [
-                        "value" => "Site Name",
-
+                        "value" => "My Site",
+                    ],
+                ]
+            ],
+            [
+                "group" => "basic_info",
+                "title" => "email",
+                "values" => [
+                    [
+                        "value" => "info@example.com",
+                    ],
+                ]
+            ],
+            [
+                "group" => "basic_info",
+                "title" => "website",
+                "values" => [
+                    [
+                        "value" => "https://example.com",
+                    ],
+                ]
+            ],
+            [
+                "group" => "basic_info",
+                "title" => "fax_number",
+                "values" => [
+                    [
+                        "value" => "",
                     ],
                 ]
             ],
@@ -59,19 +85,25 @@ class Seeder extends SeederClass
                     ],
                 ]
             ],
-
             [
                 "group" => "basic_info",
                 "title" => "footer_logo",
                 "values" => [
                     [
                         "value" => "avatar.png",
-
                     ],
                 ]
             ],
             [
-
+                "group" => "basic_info",
+                "title" => "image",
+                "values" => [
+                    [
+                        "value" => "avatar.png",
+                    ],
+                ]
+            ],
+            [
                 "group" => "basic_info",
                 "title" => "fabicon",
                 "values" => [
@@ -80,21 +112,51 @@ class Seeder extends SeederClass
                     ],
                 ]
             ],
-
-
             [
-
+                "group" => "basic_info",
+                "title" => "opening_time",
+                "values" => [
+                    [
+                        "value" => "09:00",
+                    ],
+                ]
+            ],
+            [
+                "group" => "basic_info",
+                "title" => "closing_time",
+                "values" => [
+                    [
+                        "value" => "18:00",
+                    ],
+                ]
+            ],
+            [
+                "group" => "basic_info",
+                "title" => "slogan",
+                "values" => [
+                    [
+                        "value" => "Your trusted partner for quality products.",
+                    ],
+                ]
+            ],
+            [
+                "group" => "basic_info",
+                "title" => "marquee",
+                "values" => [
+                    [
+                        "value" => "Welcome to our site! Check out our latest offers and updates.",
+                    ],
+                ]
+            ],
+            [
                 "group" => "basic_info",
                 "title" => "copy_right",
                 "values" => [
                     [
-                        "value" => "2019-24 Copy Right ",
+                        "value" => "2024-25 My Site. All rights reserved.",
                     ],
                 ]
             ],
-
-
-
         ];
 
         $this->setting_save($basic_settings);
@@ -164,58 +226,18 @@ class Seeder extends SeederClass
         $this->setting_save($contact_information_settings);
 
         $social_media_settings = [
-            [
-                "group" => "social_media",
-                "title" => "facebook",
-                "values" => [
-                    [
-                        "value" => "https://www.facebook.com/bd/",
-
-                    ],
-                ]
-            ],
-            [
-                "group" => "social_media",
-                "title" => "instagram",
-                "values" => [
-                    [
-                        "value" => "https://www.instagram.com/bd/",
-
-                    ],
-                ]
-            ],
-            [
-                "group" => "social_media",
-                "title" => "twitter",
-                "values" => [
-                    [
-                        "value" => "https://www.twitter.com/bd/",
-
-                    ],
-                ]
-            ],
-            [
-                "group" => "social_media",
-                "title" => "linkedin",
-                "values" => [
-                    [
-                        "value" => "https://www.linkedin.com/bd/",
-
-                    ],
-                ]
-            ],
-            [
-                "group" => "social_media",
-                "title" => "youtube",
-                "values" => [
-                    [
-                        "value" => "https://www.youtube.com/@bd",
-
-                    ],
-                ]
-            ],
-
-
+            ["group" => "social_media", "title" => "facebook",  "values" => [["value" => "https://www.facebook.com/"]]],
+            ["group" => "social_media", "title" => "instagram", "values" => [["value" => "https://www.instagram.com/"]]],
+            ["group" => "social_media", "title" => "twitter",   "values" => [["value" => "https://www.twitter.com/"]]],
+            ["group" => "social_media", "title" => "linkedin",  "values" => [["value" => "https://www.linkedin.com/"]]],
+            ["group" => "social_media", "title" => "youtube",   "values" => [["value" => "https://www.youtube.com/"]]],
+            ["group" => "social_media", "title" => "pinterest", "values" => [["value" => ""]]],
+            ["group" => "social_media", "title" => "tiktok",    "values" => [["value" => ""]]],
+            ["group" => "social_media", "title" => "snapchat",  "values" => [["value" => ""]]],
+            ["group" => "social_media", "title" => "whatsapp",  "values" => [["value" => ""]]],
+            ["group" => "social_media", "title" => "telegram",  "values" => [["value" => ""]]],
+            ["group" => "social_media", "title" => "github",    "values" => [["value" => ""]]],
+            ["group" => "social_media", "title" => "discord",   "values" => [["value" => ""]]],
         ];
 
         $this->setting_save($social_media_settings);
@@ -320,11 +342,19 @@ class Seeder extends SeederClass
             ],
             [
                 "group" => "seo",
+                "title" => "canonical_url",
+                "values" => [
+                    [
+                        "value" => "https://example.com",
+                    ],
+                ]
+            ],
+            [
+                "group" => "seo",
                 "title" => "meta_keywords",
                 "values" => [
                     [
-                        "value" => "name,name,name",
-
+                        "value" => "website, online, services",
                     ],
                 ]
             ],
@@ -351,6 +381,48 @@ class Seeder extends SeederClass
         ];
 
         $this->setting_save($seo_settings);
+
+        $seo_extended_settings = [
+            ["group" => "seo_extended", "title" => "og_title",                  "values" => [["value" => ""]]],
+            ["group" => "seo_extended", "title" => "og_description",             "values" => [["value" => ""]]],
+            ["group" => "seo_extended", "title" => "og_image",                   "values" => [["value" => ""]]],
+            ["group" => "seo_extended", "title" => "twitter_card",               "values" => [["value" => "summary_large_image"]]],
+            ["group" => "seo_extended", "title" => "twitter_site",               "values" => [["value" => ""]]],
+            ["group" => "seo_extended", "title" => "robots_meta",                "values" => [["value" => "index, follow"]]],
+            ["group" => "seo_extended", "title" => "google_analytics_id",        "values" => [["value" => ""]]],
+            ["group" => "seo_extended", "title" => "google_tag_manager_id",      "values" => [["value" => ""]]],
+            ["group" => "seo_extended", "title" => "google_search_console_code", "values" => [["value" => ""]]],
+            ["group" => "seo_extended", "title" => "facebook_pixel_id",          "values" => [["value" => ""]]],
+        ];
+
+        $this->setting_save($seo_extended_settings);
+
+        $payment_settings = [
+            // Mobile banking
+            ["group" => "payment", "title" => "bkash_account_number",    "values" => [["value" => ""]]],
+            ["group" => "payment", "title" => "bkash_account_type",      "values" => [["value" => "Personal"]]],
+            ["group" => "payment", "title" => "nagad_account_number",    "values" => [["value" => ""]]],
+            ["group" => "payment", "title" => "nagad_account_type",      "values" => [["value" => "Personal"]]],
+            ["group" => "payment", "title" => "rocket_account_number",   "values" => [["value" => ""]]],
+            ["group" => "payment", "title" => "rocket_account_type",     "values" => [["value" => "Personal"]]],
+            // Bank account
+            ["group" => "payment", "title" => "bank_name",               "values" => [["value" => ""]]],
+            ["group" => "payment", "title" => "bank_account_name",       "values" => [["value" => ""]]],
+            ["group" => "payment", "title" => "bank_account_number",     "values" => [["value" => ""]]],
+            ["group" => "payment", "title" => "bank_branch_name",        "values" => [["value" => ""]]],
+            ["group" => "payment", "title" => "bank_routing_number",     "values" => [["value" => ""]]],
+            // Payment gateway
+            ["group" => "payment", "title" => "payment_gateway",         "values" => [["value" => "sslcommerz"]]],
+            ["group" => "payment", "title" => "payment_gateway_mode",    "values" => [["value" => "sandbox"]]],
+            ["group" => "payment", "title" => "payment_store_id",        "values" => [["value" => ""]]],
+            ["group" => "payment", "title" => "payment_store_password",  "values" => [["value" => ""]]],
+            // Accepted cards
+            ["group" => "payment", "title" => "accept_visa",             "values" => [["value" => "yes"]]],
+            ["group" => "payment", "title" => "accept_mastercard",       "values" => [["value" => "yes"]]],
+            ["group" => "payment", "title" => "accept_amex",             "values" => [["value" => "no"]]],
+        ];
+
+        $this->setting_save($payment_settings);
 
         $pages = [
             [

@@ -41,6 +41,8 @@ axios.interceptors.request.use(
 window.remove_form_action_classes = function () {
     $(".loader_body").removeClass("active");
     $("input,select,textarea").removeClass("border-warning");
+    // Custom component wrappers use their own border-warning CSS
+    $(".ss-wrapper, .mc-wrapper").removeClass("border-warning");
     $("form button").prop("disabled", false);
     $(`.error.text-warning`).remove();
 };
@@ -58,22 +60,31 @@ window.render_form_errors = function (object, selector = "name") {
     for (const key in object) {
         if (Object.hasOwnProperty.call(object, key)) {
             const element = object[key];
-            // console.log("resss",element);
-            let el = document.querySelector(`input[${selector}="${key}`);
-            let txarea = document.querySelector(`textarea[${selector}="${key}`);
+            let el = document.querySelector(`input[${selector}="${key}"]`);
+            let txarea = document.querySelector(`textarea[${selector}="${key}"]`);
             if (!el) {
                 el = document.getElementById(`${key}`);
             }
             if (txarea) {
-                el = document.querySelector(`textarea[${selector}="${key}`);
+                el = document.querySelector(`textarea[${selector}="${key}"]`);
             }
 
-            /**
-             *  if html element found then take action
-             */
             if (el) {
-                $(`<div class="error text-warning">${element[0]}</div>`).insertAfter(el);
-                el.classList.add("border-warning");
+                // Custom wrappers (SelectInput = .ss-wrapper, MultiChipInput = .mc-wrapper)
+                // serialise via hidden inputs — apply the error border to the visible wrapper div.
+                const ssWrapper = el.closest('.ss-wrapper');
+                const mcWrapper = el.closest('.mc-wrapper');
+
+                if (ssWrapper) {
+                    ssWrapper.classList.add('border-warning');
+                    $(`<div class="error text-warning">${element[0]}</div>`).insertAfter(ssWrapper);
+                } else if (mcWrapper) {
+                    mcWrapper.classList.add('border-warning');
+                    $(`<div class="error text-warning">${element[0]}</div>`).insertAfter(mcWrapper);
+                } else {
+                    $(`<div class="error text-warning">${element[0]}</div>`).insertAfter(el);
+                    el.classList.add("border-warning");
+                }
             }
         }
     }

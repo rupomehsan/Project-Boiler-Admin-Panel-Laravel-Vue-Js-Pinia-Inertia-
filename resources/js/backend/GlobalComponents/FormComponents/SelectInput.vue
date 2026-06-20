@@ -170,7 +170,10 @@ export default {
     },
     close() { if (!this.isOpen) return; this.isOpen = false; this.query = ''; },
     onControlClick(e) {
-      // Input mousedown is stopped — only outer-div clicks reach here
+      // When the user clicks the search input directly, focus fires first and
+      // already calls open(). If we toggle here too the dropdown immediately
+      // closes (focus → open, click → close = flicker). Let onFocus handle it.
+      if (e.target === this.$refs.searchRef) return;
       this.isOpen ? this.close() : this.open();
     },
     onFocus() { this.open(); },
@@ -218,7 +221,7 @@ export default {
   align-items: center;
   flex-wrap: wrap;
   gap: 4px;
-  min-height: 38px;
+  min-height: 43px;
   padding: 4px 36px 4px 10px;
   position: relative;
   cursor: pointer;
@@ -229,7 +232,7 @@ export default {
   color: var(--text-primary);
   transition: border-color 0.15s, box-shadow 0.15s;
 }
-.ss-control:hover         { border-color: var(--border-dark); }
+.ss-control:hover         { border-color: rgba(59, 130, 246, 0.4); }
 .ss-control--open         { border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(59,130,246,.15); }
 
 /* ── Search input ──────────────────────────────────────────────────── */
@@ -341,5 +344,5 @@ export default {
 .ss-empty { padding: 10px 14px; color: var(--text-light); font-size: .8rem; text-align: center; }
 
 /* ── Validation error state ────────────────────────────────────────── */
-.ss-wrapper.border-warning .ss-control { border-color: var(--warning-color); }
+.ss-wrapper.border-warning .ss-control { border-color: #ff8800 !important; }
 </style>

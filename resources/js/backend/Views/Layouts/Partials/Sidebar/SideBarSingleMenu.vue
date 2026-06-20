@@ -1,5 +1,5 @@
 <template>
-  <li :class="{ active: isActive }" class="border border-primary rounded">
+  <li :class="{ active: isActive }">
     <router-link
       :to="{ name: route_name }"
       :class="{ active: isActive }"
@@ -40,13 +40,4 @@ export default {
 };
 </script>
 
-<style>
-/* Active single menu styling */
-li.active > a,
-li > a.active {
-  background-color: #007bff !important;
-  color: white !important;
-  border-radius: 4px;
-  margin: 2px;
-}
-</style>
+<style></style>

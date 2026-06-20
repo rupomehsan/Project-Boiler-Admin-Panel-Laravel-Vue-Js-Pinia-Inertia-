@@ -149,18 +149,22 @@ export default {
     },
 
     onSelectChange(value) {
-      const ctrl = this.$el.querySelector(".ss-control");
-      if (ctrl) {
-        ctrl.classList.remove("border-warning");
-        const next = ctrl.nextElementSibling;
-        if (next && !next.classList.contains("ss-dropdown")) next.remove();
+      const wrapper = this.$el.querySelector(".ss-wrapper");
+      if (wrapper) {
+        wrapper.classList.remove("border-warning");
+        const next = wrapper.nextElementSibling;
+        if (next && next.classList.contains("error")) next.remove();
       }
       this.fireOnchange({ target: { name: this.name, value } });
     },
 
     onChipChange(value) {
-      const box = this.$el.querySelector(".mc-box");
-      if (box) box.classList.remove("border-warning");
+      const wrapper = this.$el.querySelector(".mc-wrapper");
+      if (wrapper) {
+        wrapper.classList.remove("border-warning");
+        const next = wrapper.nextElementSibling;
+        if (next && next.classList.contains("error")) next.remove();
+      }
       this.fireOnchange({ target: { name: this.name, value } });
     },
 

@@ -1,8 +1,5 @@
 <template>
-  <li
-    :class="`mm-collapse ${is_show && 'mm-active'}`"
-    style="border: 1px solid rgba(128, 128, 128, 0.267)"
-  >
+  <li :class="`mm-collapse ${is_show && 'mm-active'}`">
     <a @click.prevent="toggleMenu" class="has-arrow" href="#">
       <div class="parent-icon">
         <i v-if="icon" :class="icon"></i>
@@ -127,19 +124,4 @@ export default {
 };
 </script>
 
-<style>
-/* Active menu item styling */
-.mm-collapse li.active > a,
-.mm-collapse li > a.active {
-  background-color: #007bff !important;
-  color: white !important;
-  border-radius: 4px;
-  margin: 2px;
-}
-
-/* Active dropdown group styling */
-.mm-collapse.mm-active > a:first-child {
-  background-color: rgba(0, 123, 255, 0.1);
-  border-left: 3px solid #007bff;
-}
-</style>
+<style></style>

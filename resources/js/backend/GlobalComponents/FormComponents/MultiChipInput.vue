@@ -243,5 +243,5 @@ export default {
 }
 
 /* ── Validation error state ────────────────────────────────────────── */
-.mc-wrapper.border-warning .mc-box { border-color: var(--warning-color); }
+.mc-wrapper.border-warning .mc-box { border-color: #ff8800 !important; }
 </style>

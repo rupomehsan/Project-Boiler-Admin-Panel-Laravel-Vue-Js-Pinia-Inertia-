@@ -6,9 +6,18 @@
           <div class="card-header">
             <div class="row align-items-center">
               <!-- Title Section -->
-              <div class="col-12 col-md-3 mb-2 mb-md-0">
+              <div class="col-12 col-md-3 mb-md-0">
                 <h5 class="text-capitalize mb-0">
-                  {{ setup.all_page_title }}
+                  <span
+                    style="display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;"
+                    :style="{
+                      backgroundColor: status === 'active' ? '#d4edda' : status === 'inactive' ? '#fff3cd' : '#f8d7da',
+                      color: status === 'active' ? '#155724' : status === 'inactive' ? '#856404' : '#721c24'
+                    }"
+                  >
+                    <i :class="status === 'active' ? 'fa fa-check-circle' : status === 'inactive' ? 'fa fa-circle-o' : 'fa fa-trash'" style="margin-right: 5px;"></i>
+                    {{ setup.all_page_title }} - {{ status === 'active' ? 'Active' : status === 'inactive' ? 'Inactive' : 'Trash' }}
+                  </span>
                 </h5>
               </div>
 
