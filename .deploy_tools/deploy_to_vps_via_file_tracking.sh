@@ -2,13 +2,22 @@
 
 # Config
 VPS_USER="root"
-VPS_IP="161.248.201.157"
-VPS_DEST="/www/wwwroot/mydictionary.techparkit.info"
+VPS_IP="144.79.133.233"
+VPS_DEST="/www/wwwroot/myvocab.softvanta.info"
 ZIP_FILE="app.zip"
 IGNORE_FILE=".deploy_tools/.zip_ignore"
-SSH_KEY="$HOME/.ssh/id_rsa" # Change if different
+SSH_KEY="$HOME/.ssh/id_ed25519" # Change if different
 
 TRACKING_FILE=".deploy_tools/.modify_tracking/modified.json"
+
+echo "🏗️ Running production build before deployment..."
+if command -v wslpath >/dev/null 2>&1 && command -v powershell.exe >/dev/null 2>&1; then
+    BUILD_DIR=$(wslpath -w "$PWD")
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Set-Location '$BUILD_DIR'; npm run build"
+else
+    npm run build
+fi
+echo "✅ Build finished. Continuing with tracked file upload..."
 
 # Check file
 if [ ! -f "$TRACKING_FILE" ]; then
